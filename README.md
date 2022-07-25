@@ -42,7 +42,7 @@ Then update your `package.json` and add the package and new scripts:
     "build-with-analyze": "webpack-build-tool build --analyze",
     "lint": "webpack-build-tool lint",
     "lint-with-fix": "webpack-build-tool lint --fix",
-    "test": "webpack-build-tool test"
+    "test": "webpack-build-tool test",
     "browserslist": "webpack-build-tool browserslist"
   }
 }
