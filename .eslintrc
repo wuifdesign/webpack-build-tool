@@ -1,0 +1,11 @@
+{
+  "root": true,
+  "extends": [
+    "eslint-config-wuif"
+  ],
+  "settings": {
+    "react": {
+      "version": "18"
+    }
+  }
+}

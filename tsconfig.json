@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "module": "esnext",
+    "types": [
+      "jest",
+      "node"
+    ],
+    "target": "es2015",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "strictNullChecks": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true
+  }
+}
