@@ -17,7 +17,7 @@ if (!config.entryFiles) {
   process.exit(1)
 }
 
-if (['build', 'start', 'test', 'lint', 'browserslist'].includes(script)) {
+if (['build', 'start', 'test', 'lint', 'browserslist', 'typecheck'].includes(script)) {
   const run = await import(`../src/scripts/${script}.js`).then((module) => module.default)
   run(args.slice(scriptIndex + 1), config)
 } else {

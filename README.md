@@ -43,6 +43,7 @@ Then update your `package.json` and add the package and new scripts:
     "lint": "webpack-build-tool lint",
     "lint-with-fix": "webpack-build-tool lint --fix",
     "test": "webpack-build-tool test",
+    "typecheck": "webpack-build-tool typecheck",
     "browserslist": "webpack-build-tool browserslist"
   }
 }
@@ -55,7 +56,6 @@ Create `tsconfig.json` file:
 ```json
 {
   "compilerOptions": {
-    "outDir": "./dist/",
     "module": "esnext",
     "types": [
       "jest",
@@ -128,3 +128,8 @@ describe('testFunction', () => {
   })
 })
 ```
+
+### Running Type Checks for Typescript Files without Building
+
+If you want to run type checks but not build files you can use the `webpack-build-tool typecheck` command.
+This is faster than doing so during build.

@@ -27,7 +27,9 @@
     "build-with-analyze": "./bin/webpack-build-tool.js build --analyze",
     "lint": "./bin/webpack-build-tool.js lint",
     "test": "./bin/webpack-build-tool.js test",
-    "browserslist": "./bin/webpack-build-tool.js browserslist"
+    "browserslist": "./bin/webpack-build-tool.js browserslist",
+    "tsc": "tsc --noEmit",
+    "typecheck": "./bin/webpack-build-tool.js typecheck"
   },
   "dependencies": {
     "@babel/preset-env": "^7.18.9",
