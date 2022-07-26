@@ -3,7 +3,7 @@
 This package is used to build Typescript, Javascript and CSS/SCSS files and
 bundle them using [webpack](https://webpack.js.org/).
 
-Installation
+## Installation
 
 ```
 npm install webpack-build-tool -D
