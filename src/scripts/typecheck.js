@@ -8,7 +8,7 @@ const run = async () => {
     stdio: 'inherit'
   })
 
-  if(temp.status === 0) {
+  if (temp.status === 0) {
     console.log(chalk.green('No typing errors found in your typescript files.'))
   }
 

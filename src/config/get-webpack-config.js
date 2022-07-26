@@ -1,9 +1,10 @@
 import path from 'path'
+import webpack from 'webpack'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import ESLintWebpackPlugin from 'eslint-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import { getBabelConfig } from './get-babel-config.js'
+import { getBabelConfig, getEffectiveBrowserslistConfig } from './get-babel-config.js'
 import { isProduction } from '../is-production.js'
 import { parseConfigFile } from '../parse-config-file.js'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
@@ -15,7 +16,7 @@ export const getWebpackConfig = ({ config, analyze }) => {
   return webpackEnhance({
     mode: isProduction() ? 'production' : 'development',
     entry: entryFiles,
-    devtool: isProduction() ? undefined : 'eval-source-map',
+    devtool: isProduction() ? false : 'eval-source-map',
     module: {
       rules: [
         {
@@ -29,15 +30,23 @@ export const getWebpackConfig = ({ config, analyze }) => {
         {
           test: /\.(sa|sc|c)ss$/,
           use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
             {
-              loader: MiniCssExtractPlugin.loader,
+              loader: 'postcss-loader',
               options: {
-                esModule: false
+                postcssOptions: {
+                  plugins: [['autoprefixer', { overrideBrowserslist: getEffectiveBrowserslistConfig(browserslist) }]]
+                }
               }
             },
-            'css-loader',
             'sass-loader'
           ]
+        },
+        {
+          test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
+          // More information here https://webpack.js.org/guides/asset-modules/
+          type: 'asset'
         }
       ]
     },
@@ -50,15 +59,18 @@ export const getWebpackConfig = ({ config, analyze }) => {
       moduleIds: 'deterministic' // better long-time caching
     },
     plugins: [
+      !isProduction() &&
+        new webpack.SourceMapDevToolPlugin({
+          filename: '[name][ext].map',
+          include: /\.css$/
+        }),
       new ESLintWebpackPlugin({
         context: process.cwd(),
         extensions: ['js', 'ts'],
         failOnError: true
       }),
       new ForkTsCheckerWebpackPlugin(),
-      new WebpackRemoveEmptyScriptsPlugin({
-        enabled: isProduction()
-      }),
+      new WebpackRemoveEmptyScriptsPlugin({}),
       analyze && new BundleAnalyzerPlugin(),
       new MiniCssExtractPlugin({
         filename: '[name].min.css'
