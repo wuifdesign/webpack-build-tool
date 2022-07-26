@@ -14,7 +14,7 @@ export const getBabelConfig = (browserslist) => ({
       '@babel/preset-env',
       {
         useBuiltIns: 'usage',
-        corejs: '3.20.2',
+        corejs: '3.24.0',
         targets: {
           browsers: getEffectiveBrowserslistConfig(browserslist)
         }

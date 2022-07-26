@@ -80,6 +80,7 @@ export const getWebpackConfig = ({ config, analyze }) => {
       extensions: ['.tsx', '.ts', '.js']
     },
     stats: 'errors-only',
+    target: ['browserslist:' + getEffectiveBrowserslistConfig(browserslist).join(',')],
     output: {
       filename: (data) => {
         if (Object.keys(entryFiles).includes(data.chunk.name)) {
