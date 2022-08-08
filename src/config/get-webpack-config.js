@@ -58,6 +58,14 @@ export const getWebpackConfig = ({ config, analyze }) => {
       },
       moduleIds: 'deterministic' // better long-time caching
     },
+    devServer: {
+      hot: false,
+      client: {
+        overlay: true
+      },
+      compress: true,
+      port: 4000
+    },
     plugins: [
       !isProduction() &&
         new webpack.SourceMapDevToolPlugin({

@@ -38,6 +38,7 @@ Then update your `package.json` and add the package and new scripts:
   ...,
   "scripts": {
     "start": "webpack-build-tool start",
+    "serve": "webpack-build-tool serve",
     "build": "webpack-build-tool build",
     "build-with-analyze": "webpack-build-tool build --analyze",
     "lint": "webpack-build-tool lint",
@@ -48,6 +49,12 @@ Then update your `package.json` and add the package and new scripts:
   }
 }
 ```
+
+### Using webpack-dev-server
+
+When running the `webpack-build-tool serve` command a webserver will be started at `http://localhost:4000` and a file
+`dev-server-running` in the root directory will be created. This file can be used to dynamically 
+load the files from the localhost server.
 
 ### Using Typescript
 
