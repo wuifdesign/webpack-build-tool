@@ -9,6 +9,7 @@ import { isProduction } from '../is-production.js'
 import { parseConfigFile } from '../parse-config-file.js'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import WebpackRemoveEmptyScriptsPlugin from 'webpack-remove-empty-scripts'
+import { WebpackManifestPlugin } from 'webpack-manifest-plugin'
 
 export const getWebpackConfig = ({ config, analyze }) => {
   const { outDir, entryFiles, browserslist, webpackEnhance } = parseConfigFile(config)
@@ -80,8 +81,36 @@ export const getWebpackConfig = ({ config, analyze }) => {
       new ForkTsCheckerWebpackPlugin(),
       new WebpackRemoveEmptyScriptsPlugin({}),
       analyze && new BundleAnalyzerPlugin(),
+      new WebpackManifestPlugin({
+        useEntryKeys: true,
+        generate: (_, files) => {
+          const entryPoints = {}
+          const allFiles = {}
+          for (const file of files) {
+            if (file.chunk) {
+              if (Object.keys(entryFiles).includes(file.chunk.name)) {
+                let chunkFiles = []
+                for (const chunk of file.chunk.getAllInitialChunks()) {
+                  chunkFiles = chunkFiles.concat(Array.from(chunk.files))
+                }
+                entryPoints[file.name] = chunkFiles
+              }
+              allFiles[file.name] = file.chunk.files.values().next().value
+            }
+          }
+          return {
+            entryPoints,
+            files: allFiles
+          }
+        }
+      }),
       new MiniCssExtractPlugin({
-        filename: '[name].min.css'
+        filename: (pathData) => {
+          if (pathData.chunk.name.endsWith('.css')) {
+            return '[name]'
+          }
+          return '[name].css'
+        }
       })
     ].filter((p) => p),
     resolve: {
@@ -91,10 +120,11 @@ export const getWebpackConfig = ({ config, analyze }) => {
     target: ['browserslist:' + getEffectiveBrowserslistConfig(browserslist).join(',')],
     output: {
       filename: (data) => {
+        const fileEnding = !data.chunk.name.endsWith('.js') ? '.js' : ''
         if (Object.keys(entryFiles).includes(data.chunk.name)) {
-          return '[name].min.js'
+          return `[name]${fileEnding}`
         }
-        return '[name].[contenthash:8].min.js'
+        return `[name].[contenthash:8]${fileEnding}`
       },
       chunkFilename: (data) => {
         return (data.chunk.name || 'lib/vendor') + '.[contenthash:8].min.js'

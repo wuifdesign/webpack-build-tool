@@ -89,8 +89,8 @@ No additional configuration needed, just add them to your `entryFiles`.
 module.exports = {
   // ...
   entryFiles: {
-    'folder/main': './src/main.ts',
-    'folder/styles': './src/styles.scss',
+    'folder/main.min.js': './src/main.ts',
+    'folder/styles.min.css': './src/styles.scss',
   }
 }
 ```
