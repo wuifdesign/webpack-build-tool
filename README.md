@@ -143,19 +143,19 @@ describe('testFunction', () => {
 
 #### Using jest in IDE
 
-You need to update package.json and add a babel config file to work.
+You need to add the following two files.
 
-```
-// package.json
+```js
+// jest.config.js
 
-{
-  ...,
-  "jest": {
-    "testEnvironment": "jsdom",
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "webpack-build-tool/__mocks__/file-mock.js",
-      "\\.(css|less)$": "webpack-build-tool/__mocks__/style-mock.js"
-    }
+const jestConfig = {
+  testEnvironment: 'jsdom',
+  transform: {
+    '\\.[jt]sx?$': ['babel-jest']
+  },
+  moduleNameMapper: {
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'webpack-build-tool/__mocks__/file-mock.js',
+    '\\.(css|sass|scss)$': 'webpack-build-tool/__mocks__/style-mock.js'
   }
 }
 ```
