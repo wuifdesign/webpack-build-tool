@@ -1,5 +1,13 @@
 body {
+  background: url("1x1.png");
+
   a {
     color: #0a0;
+  }
+
+  .img {
+    background: url("demo.jpg");
+    width: 100px;
+    height: 100px;
   }
 }

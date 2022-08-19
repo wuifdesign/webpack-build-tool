@@ -1,5 +1,6 @@
 import path from 'path'
 import webpack from 'webpack'
+import logUpdate from 'log-update'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import ESLintWebpackPlugin from 'eslint-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
@@ -10,6 +11,7 @@ import { parseConfigFile } from '../parse-config-file.js'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import WebpackRemoveEmptyScriptsPlugin from 'webpack-remove-empty-scripts'
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin'
+import chalk from 'chalk'
 
 export const getWebpackConfig = ({ config, analyze }) => {
   const { outDir, entryFiles, browserslist, webpackEnhance } = parseConfigFile(config)
@@ -45,9 +47,14 @@ export const getWebpackConfig = ({ config, analyze }) => {
           ]
         },
         {
-          test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
+          test: /\.(png|jpe?g|gif|webp|svg|eot|ttf|woff|woff2)$/i,
           // More information here https://webpack.js.org/guides/asset-modules/
-          type: 'asset'
+          type: 'asset',
+          parser: {
+            dataUrlCondition: {
+              maxSize: 4 * 1024 // 4kb
+            }
+          }
         }
       ]
     },
@@ -95,8 +102,8 @@ export const getWebpackConfig = ({ config, analyze }) => {
                 }
                 entryPoints[file.name] = chunkFiles
               }
-              allFiles[file.name] = file.chunk.files.values().next().value
             }
+            allFiles[file.name] = file.path
           }
           return {
             entryPoints,
@@ -111,6 +118,13 @@ export const getWebpackConfig = ({ config, analyze }) => {
           }
           return '[name].css'
         }
+      }),
+      new webpack.ProgressPlugin((percentage, message, info) => {
+        if (percentage >= 1) {
+          logUpdate.clear()
+        } else {
+          logUpdate(`${chalk.blue(`${message} (${Math.round(percentage * 100) + '%'})`)} ${chalk.dim(info)}`)
+        }
       })
     ].filter((p) => p),
     resolve: {
@@ -119,6 +133,7 @@ export const getWebpackConfig = ({ config, analyze }) => {
     stats: 'errors-only',
     target: ['browserslist:' + getEffectiveBrowserslistConfig(browserslist).join(',')],
     output: {
+      publicPath: 'auto',
       filename: (data) => {
         const fileEnding = !data.chunk.name.endsWith('.js') ? '.js' : ''
         if (Object.keys(entryFiles).includes(data.chunk.name)) {
@@ -129,6 +144,7 @@ export const getWebpackConfig = ({ config, analyze }) => {
       chunkFilename: (data) => {
         return (data.chunk.name || 'lib/vendor') + '.[contenthash:8].min.js'
       },
+      assetModuleFilename: 'assets/[name].[contenthash:8][ext][query]',
       path: path.resolve(process.cwd(), outDir),
       clean: true
     }

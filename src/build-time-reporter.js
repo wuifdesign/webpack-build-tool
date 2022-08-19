@@ -1,5 +1,6 @@
 import prettyMilliseconds from 'pretty-ms'
 import chalk from 'chalk'
+import { logger } from './logger.js'
 
 // Prints the build duration after build.
 export function printBuildTimeAfterBuild(webpackStats) {
@@ -11,8 +12,8 @@ export function printBuildTimeAfterBuild(webpackStats) {
   const humanTime = prettyMilliseconds(time)
 
   if (warnings.length) {
-    console.log(chalk.yellow(`Compiled with warnings in ${humanTime}.\n`))
+    logger(chalk.yellow(`Compiled with warnings in ${humanTime}.\n`))
   } else {
-    console.log(chalk.green(`Compiled successfully in ${humanTime}.\n`))
+    logger(chalk.green(`Compiled successfully in ${humanTime}.\n`))
   }
 }

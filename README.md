@@ -89,13 +89,18 @@ No additional configuration needed, just add them to your `entryFiles`.
 module.exports = {
   // ...
   entryFiles: {
-    'folder/main.min.js': './src/main.ts',
-    'folder/styles.min.css': './src/styles.scss',
+    'folder/main.min': './src/main.ts',
+    'folder/styles.min': './src/styles.scss',
   }
 }
 ```
 
 ### Using ESLint
+
+Create the following files in the root of your project. 
+
+The following config includes `eslint-config-wuif` which can be installed using `npm i eslint-config-wuif -D`,
+but you can also use your own eslint config.
 
 ```
 // .eslintignore
@@ -134,6 +139,33 @@ describe('testFunction', () => {
     expect(testFunction()).toBe(123)
   })
 })
+```
+
+#### Using jest in IDE
+
+You need to update package.json and add a babel config file to work.
+
+```
+// package.json
+
+{
+  ...,
+  "jest": {
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "webpack-build-tool/__mocks__/file-mock.js",
+      "\\.(css|less)$": "webpack-build-tool/__mocks__/style-mock.js"
+    }
+  }
+}
+```
+
+```
+// .babelrc
+
+{
+  "presets": ["@babel/preset-typescript"]
+}
 ```
 
 ### Running Type Checks for Typescript Files without Building

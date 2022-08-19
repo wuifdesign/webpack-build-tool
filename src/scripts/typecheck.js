@@ -1,5 +1,6 @@
 import { spawnSync } from 'child_process'
 import chalk from 'chalk'
+import { logger } from '../logger.js'
 
 const run = async () => {
   const temp = spawnSync('tsc', ['--noEmit'], {
@@ -9,7 +10,7 @@ const run = async () => {
   })
 
   if (temp.status === 0) {
-    console.log(chalk.green('No typing errors found in your typescript files.'))
+    logger(chalk.green('No typing errors found in your typescript files.'))
   }
 
   process.exit(temp.status)

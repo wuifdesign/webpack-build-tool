@@ -3,6 +3,7 @@ import chalk from 'chalk'
 import { parseConfigFile } from '../parse-config-file.js'
 import { getEffectiveBrowserslistConfig } from '../config/get-babel-config.js'
 import { enableProductionMode } from '../enable-production-mode.js'
+import { logger } from '../logger.js'
 
 const run = async (args, config) => {
   enableProductionMode()
@@ -10,14 +11,14 @@ const run = async (args, config) => {
   const { browserslistConfig } = parseConfigFile(config)
   const effectiveConfig = getEffectiveBrowserslistConfig(browserslistConfig)
 
-  console.log(chalk.cyan(`Supported Browsers:`))
-  console.log(
+  logger(chalk.cyan(`Supported Browsers:`))
+  logger(
     browserslist(effectiveConfig)
       .map((name) => '    ' + name)
       .join('\n')
   )
-  console.log()
-  console.log(chalk.magenta(`Browser Coverage: ${browserslist.coverage(browserslist(effectiveConfig)).toFixed(1)}%`))
+  logger()
+  logger(chalk.magenta(`Browser Coverage: ${browserslist.coverage(browserslist(effectiveConfig)).toFixed(1)}%`))
 }
 
 export default run

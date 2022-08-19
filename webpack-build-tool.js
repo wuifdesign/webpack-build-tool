@@ -1,8 +1,8 @@
 const config = {
   entryFiles: {
-    'test/main.min.js': '/example/main.ts',
-    'test/demo-style.min.css': '/example/demo.css',
-    'test/style.min.css': '/example/style.scss'
+    'test/main.min': '/example/main.ts',
+    'test/demo-style.min': '/example/demo.css',
+    'test/style.min': '/example/style.scss'
   }
 }
 

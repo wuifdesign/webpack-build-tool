@@ -4,6 +4,7 @@ import filesize from 'filesize'
 import stripAnsi from 'strip-ansi'
 import { gzipSizeSync } from 'gzip-size'
 import chalk from 'chalk'
+import { logger } from './logger.js'
 
 function canReadAsset(asset) {
   return (
@@ -39,7 +40,7 @@ function printSizes(webpackStats, assetsMapper, root, buildFolder, maxEntryGzipS
     assets.map((a) => stripAnsi(a.sizeLabel).length)
   )
   if (assets.length && infoText) {
-    console.log(infoText)
+    logger(infoText)
   }
   assets.forEach((asset) => {
     const isToBig = asset.size > maxEntryGzipSize
@@ -54,12 +55,12 @@ function printSizes(webpackStats, assetsMapper, root, buildFolder, maxEntryGzipS
     if (isToBig) {
       sizeLabel = chalk.yellow(sizeLabel)
     }
-    console.log('    ' + sizeLabel + '  ' + chalk.dim(asset.folder + path.sep) + chalk.cyan(asset.name))
+    logger('    ' + sizeLabel + '  ' + chalk.dim(asset.folder + path.sep) + chalk.cyan(asset.name))
   })
 
   if (showInfo) {
-    console.log()
-    console.log(
+    logger()
+    logger(
       chalk.yellow(
         `Some of the files(s) combined asset size exceeds the recommended limit (${filesize(maxEntryGzipSize, {
           base: 2

@@ -1,10 +1,11 @@
 import chalk from 'chalk'
 import { ESLint } from 'eslint'
+import { logger } from '../logger.js'
 
 const run = async (args) => {
   const fix = args.includes('--fix')
 
-  console.log(chalk.cyan('Starting ESLint...'))
+  logger(chalk.cyan('Starting ESLint...'))
   const eslint = new ESLint({
     fix,
     cwd: process.cwd()
@@ -14,10 +15,10 @@ const run = async (args) => {
   const resultText = formatter.format(results)
 
   if (resultText === '') {
-    console.log()
-    console.log(chalk.green('ESLint finished without errors/warnings.'))
+    logger()
+    logger(chalk.green('ESLint finished without errors/warnings.'))
   } else {
-    console.log(resultText)
+    logger(resultText)
   }
 }
 

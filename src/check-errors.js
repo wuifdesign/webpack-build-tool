@@ -1,8 +1,9 @@
 import chalk from 'chalk'
+import { logger } from './logger.js'
 
 export function checkErrors(webpackError, webpackStats) {
   if (webpackError) {
-    console.log(chalk.red(webpackError))
+    logger(chalk.red(webpackError))
     return { error: true, warning: false }
   }
 
@@ -10,12 +11,12 @@ export function checkErrors(webpackError, webpackStats) {
   const warnings = webpackStats.toJson({ all: false, warnings: true }).warnings.map((warn) => warn.message)
 
   if (errors.length) {
-    console.log(errors.join('\n\n'))
+    logger(errors.join('\n\n'))
     return { error: true, warning: false }
   }
 
   if (warnings.length) {
-    console.log(warnings.join('\n\n'))
+    logger(warnings.join('\n\n'))
     return { error: false, warning: true }
   }
 
