@@ -148,7 +148,8 @@ You need to add the following two files.
 ```js
 // jest.config.js
 
-const jestConfig = {
+/** @type {import('@jest/types').Config.InitialOptions} */
+const config = {
   testEnvironment: 'jsdom',
   transform: {
     '\\.[jt]sx?$': ['babel-jest']
@@ -158,6 +159,8 @@ const jestConfig = {
     '\\.(css|sass|scss)$': 'webpack-build-tool/__mocks__/style-mock.js'
   }
 }
+
+module.exports = config
 ```
 
 ```
