@@ -3,6 +3,7 @@ export const parseConfigFile = (config) => {
     outDir: config.outDir || 'dist',
     entryFiles: config.entryFiles,
     browserslistConfig: config.browserslist,
+    jestConfig: config.jest,
     webpackEnhance: config.webpack || ((config) => config)
   }
 }
