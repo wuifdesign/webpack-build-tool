@@ -30,9 +30,11 @@ const run = (args, config) => {
 
     printBuildTimeAfterBuild(stats)
 
+    const root = `${process.cwd()}/${outDir.replace(/^\/+/g, '')}`
+
     printEntrySizesAfterBuild(
       stats,
-      `${process.cwd()}/dist`,
+      root,
       outDir,
       WARN_AFTER_FILE_GZIP_SIZE,
       chalk.magenta('Entry File sizes after gzip:')
@@ -41,7 +43,7 @@ const run = (args, config) => {
 
     printAllSizesAfterBuild(
       stats,
-      `${process.cwd()}/dist`,
+      root,
       outDir,
       WARN_AFTER_FILE_GZIP_SIZE,
       chalk.magenta('Chunk File sizes after gzip:')
