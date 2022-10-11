@@ -19,6 +19,7 @@ const run = async (args) => {
     logger(chalk.green('ESLint finished without errors/warnings.'))
   } else {
     logger(resultText)
+    process.exit(1)
   }
 }
 
