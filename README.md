@@ -11,10 +11,10 @@ npm install webpack-build-tool -D
 
 ## Usage
 
-Create a `webpack-build-tool.js` in the same directory as the `package.json`.
+Create a `webpack-build-tool-config.js` in the same directory as the `package.json`.
 
 ```js
-// webpack-build-tool.js
+// webpack-build-tool-config.js
 
 module.exports = {
   // outDir: 'dist', // to specify a different output directory
@@ -84,7 +84,7 @@ Create `tsconfig.json` file:
 No additional configuration needed, just add them to your `entryFiles`.
 
 ```js
-// webpack-build-tool.js
+// webpack-build-tool-config.js
 
 module.exports = {
   // ...
