@@ -14,7 +14,7 @@ import { WebpackManifestPlugin } from 'webpack-manifest-plugin'
 import chalk from 'chalk'
 
 export const getWebpackConfig = ({ config, analyze }) => {
-  const { outDir, entryFiles, browserslist, webpackEnhance } = parseConfigFile(config)
+  const { outDir, entryFiles, browserslist, webpackEnhance, swc } = parseConfigFile(config)
 
   return webpackEnhance({
     mode: isProduction() ? 'production' : 'development',
@@ -28,10 +28,14 @@ export const getWebpackConfig = ({ config, analyze }) => {
         {
           test: /\.(js|jsx|tsx|ts)$/i,
           exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: getBabelConfig(browserslist)
-          }
+          use: swc.enabled
+            ? {
+                loader: 'swc-loader'
+              }
+            : {
+                loader: 'babel-loader',
+                options: getBabelConfig(browserslist)
+              }
         },
         {
           test: /\.(sa|sc|c)ss$/,

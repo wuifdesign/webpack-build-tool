@@ -6,6 +6,9 @@ const config = {
   },
   jest: {
     testPathIgnorePatterns: ['/node_modules/']
+  },
+  swc: {
+    enabled: true
   }
 }
 

@@ -17,15 +17,21 @@ Create a `webpack-build-tool-config.js` in the same directory as the `package.js
 // webpack-build-tool-config.js
 
 module.exports = {
+  entryFiles: {
+    'folder/main': './src/main.ts',
+  },
   // outDir: 'dist', // to specify a different output directory
   // webpack: (config) => config, // to enhance/change webpack config
   // browserslist: { // if you want to override the default browserlists
   //   production: ['>0.2%', 'not dead', 'not op_mini all', 'ie >= 11'],
   //   development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version']
   // },
-  entryFiles: {
-    'folder/main': './src/main.ts',
-  }
+  // jest: {
+  //   testPathIgnorePatterns: ['/node_modules/']
+  // },
+  // swc: {
+  //   enabled: true
+  // }
 }
 ```
 
@@ -175,3 +181,19 @@ module.exports = config
 
 If you want to run type checks but not build files you can use the `webpack-build-tool typecheck` command.
 This is faster than doing so during build.
+
+
+### Using SWC instead of Babel
+
+https://swc.rs/docs/usage/swc-loader
+
+```js
+// webpack-build-tool-config.js
+
+module.exports = {
+  // ...
+  swc: {
+    enabled: true
+  }
+}
+```

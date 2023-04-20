@@ -4,6 +4,7 @@ export const parseConfigFile = (config) => {
     entryFiles: config.entryFiles,
     browserslistConfig: config.browserslist,
     jestConfig: config.jest,
-    webpackEnhance: config.webpack || ((config) => config)
+    webpackEnhance: config.webpack || ((config) => config),
+    swc: config.swc || { enabled: false }
   }
 }
