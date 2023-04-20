@@ -20,6 +20,9 @@ export const getWebpackConfig = ({ config, analyze }) => {
     mode: isProduction() ? 'production' : 'development',
     entry: entryFiles,
     devtool: isProduction() ? false : 'eval-source-map',
+    cache: {
+      type: 'filesystem'
+    },
     module: {
       rules: [
         {
