@@ -8,7 +8,10 @@ const config = {
     testPathIgnorePatterns: ['/node_modules/']
   },
   swc: {
-    enabled: true
+    // enabled: true
+  },
+  webpack: (config) => {
+    return config
   }
 }
 

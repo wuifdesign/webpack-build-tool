@@ -1,36 +1,36 @@
 declare module '*.png' {
-  const value: any
-  export = value
+  const src: string
+  export default src
 }
 
 declare module '*.jpg' {
-  const value: any
-  export = value
+  const src: string
+  export default src
 }
 
 declare module '*.jpeg' {
-  const value: any
-  export = value
+  const src: string
+  export default src
 }
 
 declare module '*.gif' {
-  const value: any
-  export = value
+  const src: string
+  export default src
 }
 
 declare module '*.webp' {
-  const value: any
-  export = value
+  const src: string
+  export default src
 }
 
 declare module '*.svg' {
-  const value: any
-  export = value
+  const src: string
+  export default src
 }
 
 declare module '*.eot' {
-  const value: any
-  export = value
+  const src: string
+  export default src
 }
 
 declare module '*.ttf' {
@@ -39,11 +39,16 @@ declare module '*.ttf' {
 }
 
 declare module '*.woff' {
-  const value: any
-  export = value
+  const src: string
+  export default src
 }
 
 declare module '*.woff2' {
-  const value: any
-  export = value
+  const src: string
+  export default src
+}
+
+declare module '*?inline' {
+  const src: string
+  export default src
 }

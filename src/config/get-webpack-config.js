@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import webpack from 'webpack'
 import logUpdate from 'log-update'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
@@ -26,42 +26,71 @@ export const getWebpackConfig = ({ config, analyze }) => {
     module: {
       rules: [
         {
-          test: /\.(js|jsx|tsx|ts)$/i,
-          exclude: /node_modules/,
-          use: swc.enabled
-            ? {
-                loader: 'swc-loader'
-              }
-            : {
-                loader: 'babel-loader',
-                options: getBabelConfig(browserslist)
-              }
-        },
-        {
-          test: /\.(sa|sc|c)ss$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
+          oneOf: [
             {
-              loader: 'postcss-loader',
-              options: {
-                postcssOptions: {
-                  plugins: [['autoprefixer', { overrideBrowserslist: getEffectiveBrowserslistConfig(browserslist) }]]
+              test: /\.(js|jsx|tsx|ts)$/i,
+              exclude: /node_modules/,
+              use: swc.enabled
+                ? {
+                    loader: 'swc-loader'
+                  }
+                : {
+                    loader: 'babel-loader',
+                    options: getBabelConfig(browserslist)
+                  }
+            },
+            {
+              test: /\.(sa|sc|c)ss$/,
+              resourceQuery: /inline/,
+              use: [
+                'raw-loader',
+                {
+                  loader: 'postcss-loader',
+                  options: {
+                    postcssOptions: {
+                      plugins: [
+                        ['autoprefixer', { overrideBrowserslist: getEffectiveBrowserslistConfig(browserslist) }]
+                      ]
+                    }
+                  }
+                },
+                'sass-loader'
+              ]
+            },
+            {
+              test: /\.(sa|sc|c)ss$/,
+              use: [
+                {
+                  loader: MiniCssExtractPlugin.loader,
+                  options: {
+                    publicPath: 'auto'
+                  }
+                },
+                'css-loader',
+                {
+                  loader: 'postcss-loader',
+                  options: {
+                    postcssOptions: {
+                      plugins: [
+                        ['autoprefixer', { overrideBrowserslist: getEffectiveBrowserslistConfig(browserslist) }]
+                      ]
+                    }
+                  }
+                },
+                'sass-loader'
+              ]
+            },
+            {
+              test: /\.(png|jpe?g|gif|webp|svg|eot|ttf|woff|woff2)$/i,
+              // More information here https://webpack.js.org/guides/asset-modules/
+              type: 'asset',
+              parser: {
+                dataUrlCondition: {
+                  maxSize: 4 * 1024 // 4kb
                 }
               }
-            },
-            'sass-loader'
-          ]
-        },
-        {
-          test: /\.(png|jpe?g|gif|webp|svg|eot|ttf|woff|woff2)$/i,
-          // More information here https://webpack.js.org/guides/asset-modules/
-          type: 'asset',
-          parser: {
-            dataUrlCondition: {
-              maxSize: 4 * 1024 // 4kb
             }
-          }
+          ]
         }
       ]
     },
@@ -88,6 +117,7 @@ export const getWebpackConfig = ({ config, analyze }) => {
           include: /\.css$/
         }),
       new ESLintWebpackPlugin({
+        cache: true,
         context: process.cwd(),
         extensions: ['js', 'ts'],
         failOnError: true
@@ -97,6 +127,7 @@ export const getWebpackConfig = ({ config, analyze }) => {
       analyze && new BundleAnalyzerPlugin(),
       new WebpackManifestPlugin({
         useEntryKeys: true,
+        publicPath: '',
         generate: (_, files) => {
           const entryPoints = {}
           const allFiles = {}

@@ -9,12 +9,14 @@ export const getEffectiveBrowserslistConfig = (browserslist = browserslistConfig
 }
 
 export const getBabelConfig = (browserslist) => ({
+  cacheCompression: false,
+  cacheDirectory: true,
   presets: [
     [
       '@babel/preset-env',
       {
         useBuiltIns: 'usage',
-        corejs: '3.24.0',
+        corejs: '3.30.1',
         targets: {
           browsers: getEffectiveBrowserslistConfig(browserslist)
         }
