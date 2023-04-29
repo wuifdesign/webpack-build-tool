@@ -5,15 +5,26 @@ import stripAnsi from 'strip-ansi'
 import { gzipSizeSync } from 'gzip-size'
 import chalk from 'chalk'
 import { logger } from './logger.js'
+import { MultiStats, Stats } from 'webpack'
 
-function canReadAsset(asset) {
+type Asset = { name: string; size?: number }
+
+function canReadAsset(asset: string) {
   return (
     /\.(js|css)$/.test(asset) && !/service-worker\.js/.test(asset) && !/precache-manifest\.[0-9a-f]+\.js/.test(asset)
   )
 }
 
-function printSizes(webpackStats, assetsMapper, root, buildFolder, maxEntryGzipSize, infoText) {
-  const assets = (webpackStats.stats || [webpackStats])
+function printSizes(
+  webpackStats: Stats | MultiStats,
+  assetsMapper: (stats: Stats) => Asset[],
+  root: string,
+  buildFolder: string,
+  maxEntryGzipSize: number,
+  infoText: string
+) {
+  const stats: Stats[] = (webpackStats as any).stats || [webpackStats]
+  const assets = stats
     .map((stats) => {
       const files = assetsMapper(stats)
 
@@ -37,7 +48,7 @@ function printSizes(webpackStats, assetsMapper, root, buildFolder, maxEntryGzipS
   let showInfo = false
   const longestSizeLabelLength = Math.max.apply(
     null,
-    assets.map((a) => stripAnsi(a.sizeLabel).length)
+    assets.map((a) => stripAnsi(a.sizeLabel.toString()).length)
   )
   if (assets.length && infoText) {
     logger(infoText)
@@ -47,8 +58,8 @@ function printSizes(webpackStats, assetsMapper, root, buildFolder, maxEntryGzipS
     if (isToBig) {
       showInfo = true
     }
-    let sizeLabel = asset.sizeLabel
-    const sizeLength = stripAnsi(sizeLabel).length
+    let sizeLabel = asset.sizeLabel!
+    const sizeLength = stripAnsi(sizeLabel.toString()).length
     if (sizeLength < longestSizeLabelLength) {
       sizeLabel += ' '.repeat(longestSizeLabelLength - sizeLength)
     }
@@ -70,14 +81,20 @@ function printSizes(webpackStats, assetsMapper, root, buildFolder, maxEntryGzipS
   }
 }
 
-export function printAllSizesAfterBuild(webpackStats, root, buildFolder, maxEntryGzipSize, infoText) {
+export function printAllSizesAfterBuild(
+  webpackStats: Stats,
+  root: string,
+  buildFolder: string,
+  maxEntryGzipSize: number,
+  infoText: string
+) {
   printSizes(
     webpackStats,
     (stats) => {
       const assets = []
       const entryFileNames = getEntryPoints(webpackStats).map((item) => item.name)
-      for (const group of Object.values(stats.toJson({ all: false, chunkGroups: true }).namedChunkGroups)) {
-        for (const asset of group.assets) {
+      for (const group of Object.values(stats.toJson({ all: false, chunkGroups: true }).namedChunkGroups!)) {
+        for (const asset of group.assets!) {
           if (!entryFileNames.includes(asset.name)) {
             assets.push(asset)
           }
@@ -92,16 +109,22 @@ export function printAllSizesAfterBuild(webpackStats, root, buildFolder, maxEntr
   )
 }
 
-const getEntryPoints = (stats) => {
-  const assets = []
-  for (const group of Object.values(stats.toJson({ all: false, entrypoints: true }).entrypoints)) {
-    for (const asset of group.assets) {
+const getEntryPoints = (stats: Stats) => {
+  const assets: Asset[] = []
+  for (const group of Object.values(stats.toJson({ all: false, entrypoints: true }).entrypoints!)) {
+    for (const asset of group.assets!) {
       assets.push(asset)
     }
   }
   return assets.filter((asset) => canReadAsset(asset.name))
 }
 
-export function printEntrySizesAfterBuild(webpackStats, root, buildFolder, maxEntryGzipSize, infoText) {
+export function printEntrySizesAfterBuild(
+  webpackStats: Stats,
+  root: string,
+  buildFolder: string,
+  maxEntryGzipSize: number,
+  infoText: string
+) {
   printSizes(webpackStats, (stats) => getEntryPoints(stats), root, buildFolder, maxEntryGzipSize, infoText)
 }

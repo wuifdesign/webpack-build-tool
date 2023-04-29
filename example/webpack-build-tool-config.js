@@ -1,8 +1,9 @@
+/** @type { import('../global.d.ts').Configuration } */
 const config = {
   entryFiles: {
-    'test/main.min': '/example/main.ts',
-    'test/demo-style.min': '/example/demo.css',
-    'test/style.min': '/example/style.scss'
+    'test/main.min': '/src/main.ts',
+    'test/demo-style.min': '/src/demo.css',
+    'test/style.min': '/src/style.scss'
   },
   jest: {
     testPathIgnorePatterns: ['/node_modules/']

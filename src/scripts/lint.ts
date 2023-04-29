@@ -1,8 +1,9 @@
 import chalk from 'chalk'
 import { ESLint } from 'eslint'
-import { logger } from '../logger.js'
+import { logger } from '../utils/logger.js'
+import { ScriptFunction } from '../types/script-function.type.js'
 
-const run = async (args) => {
+const run: ScriptFunction = async (args) => {
   const fix = args.includes('--fix')
 
   logger(chalk.cyan('Starting ESLint...'))
@@ -12,7 +13,7 @@ const run = async (args) => {
   })
   const results = await eslint.lintFiles([`**/*.{js,ts,tsx}`])
   const formatter = await eslint.loadFormatter('stylish')
-  const resultText = formatter.format(results)
+  const resultText = formatter.format(results) as string
 
   if (resultText === '') {
     logger()

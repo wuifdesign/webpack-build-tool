@@ -1,0 +1,25 @@
+import { Configuration as WebpackConfiguration } from 'webpack'
+import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
+import { Config as JestConfig } from 'jest'
+
+export type CombinedWebpackConfig = WebpackConfiguration & { devServer: WebpackDevServerConfiguration }
+
+export type BrowserListConfig = string[] | { production: string[]; development: string[] }
+
+export type Configuration = {
+  entryFiles: Record<string, any>
+  outDir?: string
+  browserslist?: BrowserListConfig
+  jest?: JestConfig
+  webpack?: (config: CombinedWebpackConfig) => CombinedWebpackConfig
+  swc?: { enabled?: boolean }
+}
+
+export type ParsedConfiguration = {
+  entryFiles: Record<string, any>
+  outDir: string
+  browserslistConfig?: BrowserListConfig
+  jestConfig?: JestConfig
+  webpackEnhance: (config: CombinedWebpackConfig) => CombinedWebpackConfig
+  swc: { enabled?: boolean }
+}

@@ -1,3 +1,14 @@
+interface Configuration {
+  entryFiles: Record<string, any>
+  outDir?: string
+  browserslist?: string[] | { production: string[]; development: string[] }
+  jest?: import('jest').Config
+  webpack?: (
+    config: import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }
+  ) => import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }
+  swc?: { enabled?: boolean }
+}
+
 declare module '*.png' {
   const src: string
   export default src

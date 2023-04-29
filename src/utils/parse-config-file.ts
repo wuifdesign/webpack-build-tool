@@ -1,4 +1,6 @@
-export const parseConfigFile = (config) => {
+import { Configuration, ParsedConfiguration } from '../types/configuration.type.js'
+
+export const parseConfigFile = (config: Configuration): ParsedConfiguration => {
   return {
     outDir: config.outDir || 'dist',
     entryFiles: config.entryFiles,

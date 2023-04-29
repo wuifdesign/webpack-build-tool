@@ -1,10 +1,11 @@
 import chalk from 'chalk'
 import { run as runJest } from 'jest-cli'
-import { logger } from '../logger.js'
-import { parseConfigFile } from '../parse-config-file.js'
+import { logger } from '../utils/logger.js'
+import { parseConfigFile } from '../utils/parse-config-file.js'
 import { getBabelConfig } from '../config/get-babel-config.js'
+import { ScriptFunction } from '../types/script-function.type.js'
 
-const run = async (args, config) => {
+const run: ScriptFunction = async (args, config) => {
   const { jestConfig, swc } = parseConfigFile(config)
 
   const mergedConfig = {
@@ -15,8 +16,8 @@ const run = async (args, config) => {
     },
     moduleNameMapper: {
       '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-        '../__mocks__/file-mock.js',
-      '\\.(css|sass|scss)$': '../__mocks__/style-mock.js'
+        '../../__mocks__/file-mock.js',
+      '\\.(css|sass|scss)(\\?.+)?$': '../../__mocks__/style-mock.js'
     },
     ...jestConfig
   }

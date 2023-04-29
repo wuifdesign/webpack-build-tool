@@ -1,18 +1,19 @@
 import webpack from 'webpack'
 import chalk from 'chalk'
-import { printBuildTimeAfterBuild } from '../build-time-reporter.js'
-import { printAllSizesAfterBuild, printEntrySizesAfterBuild } from '../file-size-reporter.js'
+import { printBuildTimeAfterBuild } from '../utils/build-time-reporter.js'
+import { printAllSizesAfterBuild, printEntrySizesAfterBuild } from '../utils/file-size-reporter.js'
 import { getWebpackConfig } from '../config/get-webpack-config.js'
-import { checkErrors } from '../check-errors.js'
-import { parseConfigFile } from '../parse-config-file.js'
-import { enableProductionMode } from '../enable-production-mode.js'
+import { checkErrors } from '../utils/check-errors.js'
+import { parseConfigFile } from '../utils/parse-config-file.js'
+import { enableProductionMode } from '../utils/enable-production-mode.js'
 import { getEffectiveBrowserslistConfig } from '../config/get-babel-config.js'
-import { logger } from '../logger.js'
+import { logger } from '../utils/logger.js'
+import { ScriptFunction } from '../types/script-function.type.js'
 
-// These sizes are pretty large. We'll warn for bundles exceeding them.
+// These sizes are pretty large. We'll warn for bundles exceeding them
 const WARN_AFTER_FILE_GZIP_SIZE = 90 * 1024
 
-const run = (args, config) => {
+const run: ScriptFunction = (args, config) => {
   enableProductionMode()
 
   const { outDir, browserslistConfig } = parseConfigFile(config)
@@ -24,7 +25,7 @@ const run = (args, config) => {
   const compiler = webpack(getWebpackConfig({ config, analyze }))
   compiler.run((err, stats) => {
     const { error } = checkErrors(err, stats)
-    if (error) {
+    if (!stats || error) {
       process.exit(1)
     }
 

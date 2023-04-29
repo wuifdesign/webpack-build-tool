@@ -92,6 +92,7 @@ No additional configuration needed, just add them to your `entryFiles`.
 ```js
 // webpack-build-tool-config.js
 
+/** @type { import('webpack-build-tool').Configuration } */
 module.exports = {
   // ...
   entryFiles: {
@@ -145,6 +146,22 @@ describe('testFunction', () => {
     expect(testFunction()).toBe(123)
   })
 })
+```
+
+### Using .env
+
+You can create a `.env` file in your project root and this can be used in any file
+
+```
+// .env
+
+API_ROOT=https://myurl.com
+```
+
+```
+// src/index.ts
+
+console.log(process.env.API_ROOT)
 ```
 
 #### Using jest in IDE

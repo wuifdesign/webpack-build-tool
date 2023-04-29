@@ -4,7 +4,8 @@ import process from 'node:process'
 import chalk from 'chalk'
 import { getWebpackConfig } from '../config/get-webpack-config.js'
 import WebpackDevServer from 'webpack-dev-server'
-import { logger } from '../logger.js'
+import { logger } from '../utils/logger.js'
+import { ScriptFunction } from '../types/script-function.type.js'
 
 const devInfoFilePath = `${process.cwd()}/dev-server-running`
 
@@ -35,7 +36,7 @@ for (const event of [
   process.on(event, deleteDevServerInfoFile)
 }
 
-const run = (args, config) => {
+const run: ScriptFunction = (args, config) => {
   logger(chalk.cyan('Starting the development server...'))
 
   const webpackConfig = getWebpackConfig({ config })

@@ -1,11 +1,12 @@
 import browserslist from 'browserslist'
 import chalk from 'chalk'
-import { parseConfigFile } from '../parse-config-file.js'
+import { parseConfigFile } from '../utils/parse-config-file.js'
 import { getEffectiveBrowserslistConfig } from '../config/get-babel-config.js'
-import { enableProductionMode } from '../enable-production-mode.js'
-import { logger } from '../logger.js'
+import { enableProductionMode } from '../utils/enable-production-mode.js'
+import { logger } from '../utils/logger.js'
+import { ScriptFunction } from '../types/script-function.type.js'
 
-const run = async (args, config) => {
+const run: ScriptFunction = async (args, config) => {
   enableProductionMode()
 
   const { browserslistConfig } = parseConfigFile(config)

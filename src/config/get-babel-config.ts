@@ -1,16 +1,15 @@
 import { browserslistConfig } from './browserslist-config.js'
-import { isProduction } from '../is-production.js'
+import { isProduction } from '../utils/is-production.js'
+import { BrowserListConfig } from '../types/configuration.type.js'
 
-export const getEffectiveBrowserslistConfig = (browserslist = browserslistConfig) => {
+export const getEffectiveBrowserslistConfig = (browserslist: BrowserListConfig = browserslistConfig) => {
   if (Array.isArray(browserslist)) {
     return browserslist
   }
   return isProduction() ? browserslist.production : browserslist.development
 }
 
-export const getBabelConfig = (browserslist) => ({
-  cacheCompression: false,
-  cacheDirectory: true,
+export const getBabelConfig = (browserslist?: BrowserListConfig) => ({
   presets: [
     [
       '@babel/preset-env',

@@ -1,16 +1,11 @@
 {
   "compilerOptions": {
-    "module": "esnext",
-    "types": [
-      "jest",
-      "node"
-    ],
-    "target": "es2015",
-    "moduleResolution": "node",
-    "noEmit": true,
-    "strictNullChecks": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "noImplicitAny": true
-  }
+    "rootDir": "src",
+    "outDir": "build",
+    "strict": true,
+    "target": "ES2017",
+    "module": "NodeNext",
+    "types": []
+  },
+  "include": ["src/**/*"]
 }

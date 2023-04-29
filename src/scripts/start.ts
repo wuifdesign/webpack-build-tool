@@ -1,10 +1,11 @@
 import webpack from 'webpack'
 import chalk from 'chalk'
 import { getWebpackConfig } from '../config/get-webpack-config.js'
-import { checkErrors } from '../check-errors.js'
-import { logger } from '../logger.js'
+import { checkErrors } from '../utils/check-errors.js'
+import { logger } from '../utils/logger.js'
+import { ScriptFunction } from '../types/script-function.type.js'
 
-const run = (args, config) => {
+const run: ScriptFunction = (args, config) => {
   logger(chalk.cyan('Starting the development build...'))
   const compiler = webpack(getWebpackConfig({ config }))
   compiler.watch(
