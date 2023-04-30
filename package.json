@@ -25,8 +25,9 @@
   },
   "scripts": {
     "clean": "rimraf ./build",
-    "build": "npm run clean && tsc",
-    "watch": "npm run clean && tsc -w"
+    "build": "npm run clean && tsc --declaration",
+    "watch": "npm run clean && tsc -w",
+    "lint": "eslint ./src"
   },
   "dependencies": {
     "@babel/preset-env": "^7.21.5",

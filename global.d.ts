@@ -1,6 +1,7 @@
 interface Configuration {
   entryFiles: Record<string, any>
   outDir?: string
+  manifest?: boolean
   browserslist?: string[] | { production: string[]; development: string[] }
   jest?: import('jest').Config
   webpack?: (

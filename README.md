@@ -11,16 +11,18 @@ npm install webpack-build-tool -D
 
 ## Usage
 
-Create a `webpack-build-tool-config.js` in the same directory as the `package.json`.
+Create a `webpack-build-tool-config.js` or `webpack-build-tool-config.ts`  in the same directory as the `package.json`.
 
 ```js
 // webpack-build-tool-config.js
 
+/** @type { import('webpack-build-tool').Configuration } */
 module.exports = {
   entryFiles: {
     'folder/main': './src/main.ts',
   },
   // outDir: 'dist', // to specify a different output directory
+  // manifest: true, // to generate a minifest.json file
   // webpack: (config) => config, // to enhance/change webpack config
   // browserslist: { // if you want to override the default browserlists
   //   production: ['>0.2%', 'not dead', 'not op_mini all', 'ie >= 11'],
@@ -207,6 +209,7 @@ https://swc.rs/docs/usage/swc-loader
 ```js
 // webpack-build-tool-config.js
 
+/** @type { import('webpack-build-tool').Configuration } */
 module.exports = {
   // ...
   swc: {

@@ -20,7 +20,7 @@ const notEmpty = <TValue>(value: TValue | null | undefined | false): value is TV
 }
 
 export const getWebpackConfig = ({ config, analyze }: { config: Configuration; analyze?: boolean }) => {
-  const { outDir, entryFiles, browserslistConfig, webpackEnhance, swc } = parseConfigFile(config)
+  const { outDir, entryFiles, browserslistConfig, webpackEnhance, swc, manifest } = parseConfigFile(config)
 
   return webpackEnhance({
     mode: isProduction() ? 'production' : 'development',
@@ -148,7 +148,7 @@ export const getWebpackConfig = ({ config, analyze }: { config: Configuration; a
       new ForkTsCheckerWebpackPlugin(),
       new WebpackRemoveEmptyScriptsPlugin({}),
       analyze && new BundleAnalyzerPlugin(),
-      !isProduction() &&
+      manifest &&
         new WebpackManifestPlugin({
           useEntryKeys: true,
           publicPath: '',

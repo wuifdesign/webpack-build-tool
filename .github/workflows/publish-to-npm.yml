@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: ['16']
+        node-version: ['18']
 
     steps:
       - uses: actions/checkout@v2
@@ -24,9 +24,6 @@ jobs:
         run: npm ci --prefer-offline
       - run: npm run build
       - run: npm run lint
-      - run: npm test
-        env:
-          CI: true
       - name: Publish to NPM
         uses: JS-DevTools/npm-publish@v1
         with:

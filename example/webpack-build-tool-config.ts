@@ -1,5 +1,6 @@
 /** @type { import('../global.d.ts').Configuration } */
-const config = {
+const config: Configuration = {
+  manifest: true,
   entryFiles: {
     'test/main.min': '/src/main.ts',
     'test/demo-style.min': '/src/demo.css',

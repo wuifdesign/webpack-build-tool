@@ -9,6 +9,7 @@ export type BrowserListConfig = string[] | { production: string[]; development: 
 export type Configuration = {
   entryFiles: Record<string, any>
   outDir?: string
+  manifest?: boolean
   browserslist?: BrowserListConfig
   jest?: JestConfig
   webpack?: (config: CombinedWebpackConfig) => CombinedWebpackConfig
@@ -18,6 +19,7 @@ export type Configuration = {
 export type ParsedConfiguration = {
   entryFiles: Record<string, any>
   outDir: string
+  manifest: boolean
   browserslistConfig?: BrowserListConfig
   jestConfig?: JestConfig
   webpackEnhance: (config: CombinedWebpackConfig) => CombinedWebpackConfig
