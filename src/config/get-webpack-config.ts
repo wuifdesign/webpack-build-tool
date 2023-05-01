@@ -11,18 +11,20 @@ import { parseConfigFile } from '../utils/parse-config-file.js'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import WebpackRemoveEmptyScriptsPlugin from 'webpack-remove-empty-scripts'
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
+import SpeedMeasurePlugin from 'speed-measure-webpack-plugin'
 import chalk from 'chalk'
 import { config as dotEnvConfig } from 'dotenv'
-import { Configuration } from '../types/configuration.type.js'
+import { CombinedWebpackConfig, Configuration } from '../types/configuration.type.js'
 
 const notEmpty = <TValue>(value: TValue | null | undefined | false): value is TValue => {
   return value !== null && value !== undefined && value !== false
 }
 
 export const getWebpackConfig = ({ config, analyze }: { config: Configuration; analyze?: boolean }) => {
-  const { outDir, entryFiles, browserslistConfig, webpackEnhance, swc, manifest } = parseConfigFile(config)
+  const { outDir, entryFiles, browserslistConfig, webpackEnhance, jsLoader, manifest } = parseConfigFile(config)
 
-  return webpackEnhance({
+  let enhancedConfig = webpackEnhance({
     mode: isProduction() ? 'production' : 'development',
     entry: entryFiles,
     devtool: isProduction() ? false : 'eval-source-map',
@@ -36,18 +38,19 @@ export const getWebpackConfig = ({ config, analyze }: { config: Configuration; a
             {
               test: /\.(js|jsx|tsx|ts)$/i,
               exclude: [/node_modules/],
-              use: swc.enabled
-                ? {
-                    loader: 'swc-loader'
-                  }
-                : {
-                    loader: 'babel-loader',
-                    options: {
-                      cacheCompression: false,
-                      cacheDirectory: true,
-                      ...getBabelConfig(browserslistConfig)
+              use:
+                jsLoader === 'swc'
+                  ? {
+                      loader: 'swc-loader'
                     }
-                  }
+                  : {
+                      loader: 'babel-loader',
+                      options: {
+                        cacheCompression: false,
+                        cacheDirectory: true,
+                        ...getBabelConfig(browserslistConfig)
+                      }
+                    }
             },
             {
               test: /\.(sa|sc|c)ss$/i,
@@ -105,31 +108,6 @@ export const getWebpackConfig = ({ config, analyze }: { config: Configuration; a
         }
       ]
     },
-    optimization: {
-      minimizer: ['...', new CssMinimizerPlugin()],
-      emitOnErrors: false,
-      splitChunks: {
-        minSize: 100000
-      },
-      moduleIds: 'deterministic' // better long-time caching
-    },
-    devServer: {
-      hot: false,
-      client: {
-        logging: 'warn', // 'log' | 'info' | 'warn' | 'error' | 'none' | 'verbose'
-        overlay: {
-          errors: true,
-          warnings: false
-        }
-      },
-      compress: true,
-      port: 4000,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
-      }
-    },
     plugins: [
       new webpack.DefinePlugin({
         'process.env': JSON.stringify(dotEnvConfig().parsed)
@@ -173,14 +151,6 @@ export const getWebpackConfig = ({ config, analyze }: { config: Configuration; a
             }
           }
         }),
-      new MiniCssExtractPlugin({
-        filename: (pathData) => {
-          if (pathData.chunk?.name?.endsWith('.css')) {
-            return '[name]'
-          }
-          return '[name].css'
-        }
-      }),
       new webpack.ProgressPlugin((percentage, message, info) => {
         if (percentage >= 1) {
           logUpdate.clear()
@@ -189,6 +159,49 @@ export const getWebpackConfig = ({ config, analyze }: { config: Configuration; a
         }
       })
     ].filter(notEmpty),
+    optimization: {
+      minimizer: [
+        new TerserPlugin(
+          jsLoader === 'swc'
+            ? {
+                minify: TerserPlugin.swcMinify,
+                // `terserOptions` options will be passed to `swc` (`@swc/core`)
+                // Link to options - https://swc.rs/docs/config-js-minify
+                terserOptions: {}
+              }
+            : {
+                parallel: true,
+                // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+                terserOptions: {}
+              }
+        ),
+        new CssMinimizerPlugin({
+          parallel: true
+        })
+      ],
+      emitOnErrors: false,
+      splitChunks: {
+        minSize: 100000
+      },
+      moduleIds: 'deterministic' // better long-time caching
+    },
+    devServer: {
+      hot: false,
+      client: {
+        logging: 'warn', // 'log' | 'info' | 'warn' | 'error' | 'none' | 'verbose'
+        overlay: {
+          errors: true,
+          warnings: false
+        }
+      },
+      compress: true,
+      port: 4000,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
+      }
+    },
     resolve: {
       extensions: ['.tsx', '.ts', '.js']
     },
@@ -211,4 +224,22 @@ export const getWebpackConfig = ({ config, analyze }: { config: Configuration; a
       clean: true
     }
   })
+  if (process.env.MEASURE_WEBPACK_SPEED === 'true') {
+    const smp = new SpeedMeasurePlugin()
+    enhancedConfig = smp.wrap(enhancedConfig) as CombinedWebpackConfig
+  }
+
+  // https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167
+  enhancedConfig.plugins!.push(
+    new MiniCssExtractPlugin({
+      filename: (pathData) => {
+        if (pathData.chunk?.name?.endsWith('.css')) {
+          return '[name]'
+        }
+        return '[name].css'
+      }
+    })
+  )
+
+  return enhancedConfig
 }

@@ -9,9 +9,7 @@ const config: Configuration = {
   jest: {
     testPathIgnorePatterns: ['/node_modules/']
   },
-  swc: {
-    // enabled: true
-  },
+  jsLoader: 'swc',
   webpack: (config) => {
     return config
   }

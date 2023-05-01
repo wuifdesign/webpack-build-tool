@@ -6,13 +6,13 @@ import { getBabelConfig } from '../config/get-babel-config.js'
 import { ScriptFunction } from '../types/script-function.type.js'
 
 const run: ScriptFunction = async (args, config) => {
-  const { jestConfig, swc } = parseConfigFile(config)
+  const { jestConfig, jsLoader } = parseConfigFile(config)
 
   const mergedConfig = {
     rootDir: process.cwd(),
     testEnvironment: 'jsdom',
     transform: {
-      '\\.[jt]sx?$': swc.enabled ? ['@swc/jest'] : ['babel-jest', getBabelConfig()]
+      '\\.[jt]sx?$': jsLoader === 'swc' ? ['@swc/jest'] : ['babel-jest', getBabelConfig()]
     },
     moduleNameMapper: {
       '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':

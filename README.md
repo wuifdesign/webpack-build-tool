@@ -31,9 +31,7 @@ module.exports = {
   // jest: {
   //   testPathIgnorePatterns: ['/node_modules/']
   // },
-  // swc: {
-  //   enabled: true
-  // }
+  // jsLoader: 'swc' // 'swc' | 'babel'
 }
 ```
 
@@ -177,7 +175,7 @@ You need to add the following two files.
 const config = {
   testEnvironment: 'jsdom',
   transform: {
-    '\\.[jt]sx?$': ['babel-jest']
+    '\\.[jt]sx?$': ['@swc/jest'] // or ['babel-jest'] if using babel
   },
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'webpack-build-tool/__mocks__/file-mock.js',
@@ -188,21 +186,13 @@ const config = {
 module.exports = config
 ```
 
-```
-// .babelrc
-
-{
-  "presets": ["@babel/preset-typescript"]
-}
-```
-
 ### Running Type Checks for Typescript Files without Building
 
 If you want to run type checks but not build files you can use the `webpack-build-tool typecheck` command.
 This is faster than doing so during build.
 
 
-### Using SWC instead of Babel
+### Using Babel instead of SWC
 
 https://swc.rs/docs/usage/swc-loader
 
@@ -212,8 +202,27 @@ https://swc.rs/docs/usage/swc-loader
 /** @type { import('webpack-build-tool').Configuration } */
 module.exports = {
   // ...
-  swc: {
-    enabled: true
-  }
+  jsLoader: 'babel'
+}
+```
+
+### Using SWC instead of Babel
+
+If you want to inspect what slows your webpack build down you can use the
+https://github.com/stephencookdev/speed-measure-webpack-plugin
+
+```js
+// .env
+
+MEASURE_WEBPACK_SPEED=true
+```
+
+For your IDE you may need to add a `.babelrc`:
+
+```
+// .babelrc
+
+{
+  "presets": ["@babel/preset-typescript"]
 }
 ```

@@ -7,7 +7,7 @@ interface Configuration {
   webpack?: (
     config: import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }
   ) => import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }
-  swc?: { enabled?: boolean }
+  jsLoader?: 'swc' | 'babel'
 }
 
 declare module '*.png' {

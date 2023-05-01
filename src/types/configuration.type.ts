@@ -13,7 +13,7 @@ export type Configuration = {
   browserslist?: BrowserListConfig
   jest?: JestConfig
   webpack?: (config: CombinedWebpackConfig) => CombinedWebpackConfig
-  swc?: { enabled?: boolean }
+  jsLoader?: 'swc' | 'babel'
 }
 
 export type ParsedConfiguration = {
@@ -23,5 +23,5 @@ export type ParsedConfiguration = {
   browserslistConfig?: BrowserListConfig
   jestConfig?: JestConfig
   webpackEnhance: (config: CombinedWebpackConfig) => CombinedWebpackConfig
-  swc: { enabled?: boolean }
+  jsLoader?: 'swc' | 'babel'
 }

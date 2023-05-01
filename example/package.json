@@ -7,8 +7,12 @@
     "build": "node ../build/cli/webpack-build-tool.js build",
     "build-with-analyze": "node ../build/cli/webpack-build-tool.js build --analyze",
     "lint": "node ../build/cli/webpack-build-tool.js lint",
+    "eslint": "cross-env TIMING=1 DEBUG=eslint:cli-engine eslint .",
     "test": "node ../build/cli/webpack-build-tool.js test",
     "browserslist": "node ../build/cli/webpack-build-tool.js browserslist",
     "typecheck": "node ../build/cli/webpack-build-tool.js typecheck"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
