@@ -21,7 +21,17 @@ const notEmpty = <TValue>(value: TValue | null | undefined | false): value is TV
   return value !== null && value !== undefined && value !== false
 }
 
-export const getWebpackConfig = ({ config, analyze }: { config: Configuration; analyze?: boolean }) => {
+export const getWebpackConfig = ({
+  config,
+  analyze,
+  noLint,
+  timings
+}: {
+  config: Configuration
+  analyze?: boolean
+  noLint?: boolean
+  timings?: boolean
+}) => {
   const { outDir, entryFiles, browserslistConfig, webpackEnhance, jsLoader, manifest } = parseConfigFile(config)
 
   let enhancedConfig = webpackEnhance({
@@ -117,12 +127,13 @@ export const getWebpackConfig = ({ config, analyze }: { config: Configuration; a
           filename: '[name][ext].map',
           include: /\.css$/
         }),
-      new ESLintWebpackPlugin({
-        cache: true,
-        context: process.cwd(),
-        extensions: ['js', 'ts', 'jsx', 'tsx'],
-        failOnError: true
-      }),
+      !noLint &&
+        new ESLintWebpackPlugin({
+          cache: true,
+          context: process.cwd(),
+          extensions: ['js', 'ts', 'jsx', 'tsx'],
+          failOnError: true
+        }),
       new ForkTsCheckerWebpackPlugin(),
       new WebpackRemoveEmptyScriptsPlugin({}),
       analyze && new BundleAnalyzerPlugin(),
@@ -224,7 +235,7 @@ export const getWebpackConfig = ({ config, analyze }: { config: Configuration; a
       clean: true
     }
   })
-  if (process.env.MEASURE_WEBPACK_SPEED === 'true') {
+  if (timings) {
     const smp = new SpeedMeasurePlugin()
     enhancedConfig = smp.wrap(enhancedConfig) as CombinedWebpackConfig
   }

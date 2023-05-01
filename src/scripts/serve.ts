@@ -6,6 +6,7 @@ import { getWebpackConfig } from '../config/get-webpack-config.js'
 import WebpackDevServer from 'webpack-dev-server'
 import { logger } from '../utils/logger.js'
 import { ScriptFunction } from '../types/script-function.type.js'
+import { argsParser } from '../utils/args-parser.js'
 
 const devInfoFilePath = `${process.cwd()}/dev-server-running`
 
@@ -39,7 +40,8 @@ for (const event of [
 const run: ScriptFunction = (args, config) => {
   logger(chalk.cyan('Starting the development server...'))
 
-  const webpackConfig = getWebpackConfig({ config })
+  const { timings, noLint } = argsParser(args)
+  const webpackConfig = getWebpackConfig({ config, timings, noLint })
   const compiler = webpack(webpackConfig)
   const server = new WebpackDevServer(webpackConfig.devServer, compiler)
   createDevServerInfoFile()

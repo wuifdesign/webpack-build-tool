@@ -9,6 +9,7 @@ import { enableProductionMode } from '../utils/enable-production-mode.js'
 import { getEffectiveBrowserslistConfig } from '../config/get-babel-config.js'
 import { logger } from '../utils/logger.js'
 import { ScriptFunction } from '../types/script-function.type.js'
+import { argsParser } from '../utils/args-parser.js'
 
 // These sizes are pretty large. We'll warn for bundles exceeding them
 const WARN_AFTER_FILE_GZIP_SIZE = 90 * 1024
@@ -17,12 +18,12 @@ const run: ScriptFunction = (args, config) => {
   enableProductionMode()
 
   const { outDir, browserslistConfig } = parseConfigFile(config)
-  const analyze = args.includes('--analyze')
 
   logger(chalk.cyan('Creating an optimized production build...'))
   logger(chalk.magenta('Browserslist Config: ' + getEffectiveBrowserslistConfig(browserslistConfig).join(', ')))
   logger()
-  const compiler = webpack(getWebpackConfig({ config, analyze }))
+  const { timings, noLint, analyze } = argsParser(args)
+  const compiler = webpack(getWebpackConfig({ config, timings, noLint, analyze }))
   compiler.run((err, stats) => {
     const { error } = checkErrors(err, stats)
     if (!stats || error) {

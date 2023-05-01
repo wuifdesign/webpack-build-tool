@@ -4,10 +4,12 @@ import { getWebpackConfig } from '../config/get-webpack-config.js'
 import { checkErrors } from '../utils/check-errors.js'
 import { logger } from '../utils/logger.js'
 import { ScriptFunction } from '../types/script-function.type.js'
+import { argsParser } from '../utils/args-parser.js'
 
 const run: ScriptFunction = (args, config) => {
   logger(chalk.cyan('Starting the development build...'))
-  const compiler = webpack(getWebpackConfig({ config }))
+  const { timings, noLint } = argsParser(args)
+  const compiler = webpack(getWebpackConfig({ config, timings, noLint }))
   compiler.watch(
     {
       aggregateTimeout: 20,

@@ -47,6 +47,7 @@ Then update your `package.json` and add the package and new scripts:
     "serve": "webpack-build-tool serve",
     "build": "webpack-build-tool build",
     "build-with-analyze": "webpack-build-tool build --analyze",
+    "build-no-lint": "webpack-build-tool build --no-lint",
     "lint": "webpack-build-tool lint",
     "lint-with-fix": "webpack-build-tool lint --fix",
     "test": "webpack-build-tool test",
@@ -55,6 +56,8 @@ Then update your `package.json` and add the package and new scripts:
   }
 }
 ```
+
+Using `--no-lint` will improve build time.
 
 ### Using webpack-dev-server
 
@@ -206,17 +209,6 @@ module.exports = {
 }
 ```
 
-### Using SWC instead of Babel
-
-If you want to inspect what slows your webpack build down you can use the
-https://github.com/stephencookdev/speed-measure-webpack-plugin
-
-```js
-// .env
-
-MEASURE_WEBPACK_SPEED=true
-```
-
 For your IDE you may need to add a `.babelrc`:
 
 ```
@@ -226,3 +218,23 @@ For your IDE you may need to add a `.babelrc`:
   "presets": ["@babel/preset-typescript"]
 }
 ```
+
+### Show Timings of Webpack and ESLint
+
+If you want to inspect what slows down your webpack build you activate the
+[Speed Measure Webpack Plugin](https://github.com/stephencookdev/speed-measure-webpack-plugin) by adding
+`--timings` flag.
+
+```
+// package.json
+
+{
+  ...,
+  "scripts": {
+    "start": "webpack-build-tool build --timings",
+  }
+}
+```
+
+For ESLint timing you need to add `TIMING=1` environment variable. 
+(https://eslint.org/docs/latest/extend/custom-rules#profile-rule-performance)

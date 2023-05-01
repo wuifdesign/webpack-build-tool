@@ -2,9 +2,10 @@ import chalk from 'chalk'
 import { ESLint } from 'eslint'
 import { logger } from '../utils/logger.js'
 import { ScriptFunction } from '../types/script-function.type.js'
+import { argsParser } from '../utils/args-parser.js'
 
 const run: ScriptFunction = async (args) => {
-  const fix = args.includes('--fix')
+  const { fix } = argsParser(args)
 
   logger(chalk.cyan('Starting ESLint...'))
   const eslint = new ESLint({
