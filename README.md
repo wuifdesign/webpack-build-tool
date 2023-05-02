@@ -13,8 +13,33 @@ npm install webpack-build-tool -D
 
 Create a `webpack-build-tool-config.js` or `webpack-build-tool-config.ts`  in the same directory as the `package.json`.
 
-```js
+```ts
 // webpack-build-tool-config.ts
+
+import { Configuration } from 'webpack-build-tool'
+
+const config: Configuration = {
+  entryFiles: {
+    'folder/main': './src/main.ts',
+  },
+  // outDir: 'dist', // to specify a different output directory
+  // manifest: true, // to generate a minifest.json file
+  // webpack: (config) => config, // to enhance/change webpack config
+  // browserslist: { // if you want to override the default browserlists
+  //   production: ['>0.2%', 'not dead', 'not op_mini all', 'ie >= 11'],
+  //   development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version']
+  // },
+  // jest: {
+  //   testPathIgnorePatterns: ['/node_modules/']
+  // },
+  // jsLoader: 'swc' // 'swc' | 'babel'
+}
+
+export default config
+```
+
+```js
+// webpack-build-tool-config.js
 
 /** @type { import('webpack-build-tool').Configuration } */
 module.exports = {
@@ -93,7 +118,7 @@ Create `tsconfig.json` file:
 No additional configuration needed, just add them to your `entryFiles`.
 
 ```js
-// webpack-build-tool-config.ts
+// webpack-build-tool-config.js
 
 /** @type { import('webpack-build-tool').Configuration } */
 module.exports = {
@@ -208,7 +233,7 @@ This is faster than doing so during build.
 https://swc.rs/docs/usage/swc-loader
 
 ```js
-// webpack-build-tool-config.ts
+// webpack-build-tool-config.js
 
 /** @type { import('webpack-build-tool').Configuration } */
 module.exports = {

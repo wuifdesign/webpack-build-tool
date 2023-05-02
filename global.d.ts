@@ -1,66 +1,83 @@
-interface Configuration {
-  entryFiles: Record<string, any>
-  outDir?: string
-  manifest?: boolean
-  browserslist?: string[] | { production: string[]; development: string[] }
-  jest?: import('jest').Config
-  webpack?: (
-    config: import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }
-  ) => import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }
-  jsLoader?: 'swc' | 'babel'
+declare module 'webpack-build-tool' {
+  export interface Configuration {
+    entryFiles: Record<string, any>
+    outDir?: string
+    manifest?: boolean
+    browserslist?: string[] | { production: string[]; development: string[] }
+    jest?: import('jest').Config
+    webpack?: (
+      config: import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }
+    ) => import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }
+    jsLoader?: 'swc' | 'babel'
+  }
+}
+
+declare module '*.css' {
+  const value: string
+  export = value
+}
+
+declare module '*.sass' {
+  const value: string
+  export = value
+}
+
+declare module '*.scss' {
+  const value: string
+  export = value
 }
 
 declare module '*.png' {
-  const src: string
-  export default src
+  const value: string
+  export = value
 }
 
 declare module '*.jpg' {
-  const src: string
-  export default src
+  const value: string
+  export = value
 }
 
 declare module '*.jpeg' {
-  const src: string
-  export default src
+  const value: string
+  export = value
 }
 
 declare module '*.gif' {
-  const src: string
-  export default src
+  const value: string
+  export = value
 }
 
 declare module '*.webp' {
-  const src: string
-  export default src
+  const value: string
+  export = value
 }
 
 declare module '*.svg' {
-  const src: string
-  export default src
+  const value: string
+  export = value
 }
 
 declare module '*.eot' {
-  const src: string
-  export default src
+  const value: string
+  export = value
 }
 
 declare module '*.ttf' {
-  const value: any
+  const value: string
   export = value
 }
 
 declare module '*.woff' {
-  const src: string
-  export default src
+  const value: string
+  export = value
 }
 
 declare module '*.woff2' {
-  const src: string
-  export default src
+  const value: string
+  export = value
 }
 
 declare module '*?inline' {
-  const src: string
-  export default src
+  const value: string
+  export = value
 }

@@ -1,4 +1,5 @@
-/** @type { import('../global.d.ts').Configuration } */
+import { Configuration } from 'webpack-build-tool'
+
 const config: Configuration = {
   manifest: true,
   entryFiles: {
