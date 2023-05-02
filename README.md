@@ -113,6 +113,25 @@ Create `tsconfig.json` file:
 }
 ```
 
+### Using SWC and React/Preact
+
+Create `.swcrc` file:
+
+```json
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "decorators": false,
+      "dynamicImport": true
+    }
+  }
+}
+
+```
+
 ### Building SASS/SCSS/CSS Files
 
 No additional configuration needed, just add them to your `entryFiles`.
