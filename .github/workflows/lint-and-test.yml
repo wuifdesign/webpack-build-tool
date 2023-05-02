@@ -28,5 +28,5 @@ jobs:
         run: npm i -g npm@8
       - name: Install
         run: npm ci --prefer-offline
-      - run: npm run build
       - run: npm run lint
+      - run: npm run build
