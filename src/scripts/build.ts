@@ -5,7 +5,7 @@ import { printAllSizesAfterBuild, printEntrySizesAfterBuild } from '../utils/fil
 import { getWebpackConfig } from '../config/get-webpack-config.js'
 import { checkErrors } from '../utils/check-errors.js'
 import { parseConfigFile } from '../utils/parse-config-file.js'
-import { enableProductionMode } from '../utils/enable-production-mode.js'
+import { setNodeEnv } from '../utils/set-node-env.js'
 import { getEffectiveBrowserslistConfig } from '../config/get-babel-config.js'
 import { logger } from '../utils/logger.js'
 import { ScriptFunction } from '../types/script-function.type.js'
@@ -15,7 +15,7 @@ import { argsParser } from '../utils/args-parser.js'
 const WARN_AFTER_FILE_GZIP_SIZE = 90 * 1024
 
 const run: ScriptFunction = (args, config) => {
-  enableProductionMode()
+  setNodeEnv('production')
 
   const { outDir, browserslistConfig } = parseConfigFile(config)
 

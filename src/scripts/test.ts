@@ -4,8 +4,11 @@ import { logger } from '../utils/logger.js'
 import { parseConfigFile } from '../utils/parse-config-file.js'
 import { getBabelConfig } from '../config/get-babel-config.js'
 import { ScriptFunction } from '../types/script-function.type.js'
+import { setNodeEnv } from '../utils/set-node-env.js'
 
 const run: ScriptFunction = async (args, config) => {
+  setNodeEnv('test')
+
   const { jestConfig, jsLoader } = parseConfigFile(config)
 
   const mergedConfig = {

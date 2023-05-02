@@ -5,8 +5,11 @@ import { checkErrors } from '../utils/check-errors.js'
 import { logger } from '../utils/logger.js'
 import { ScriptFunction } from '../types/script-function.type.js'
 import { argsParser } from '../utils/args-parser.js'
+import { setNodeEnv } from '../utils/set-node-env.js'
 
 const run: ScriptFunction = (args, config) => {
+  setNodeEnv('development')
+
   logger(chalk.cyan('Starting the development build...'))
   const { timings, noLint } = argsParser(args)
   const compiler = webpack(getWebpackConfig({ config, timings, noLint }))

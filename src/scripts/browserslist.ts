@@ -2,12 +2,12 @@ import browserslist from 'browserslist'
 import chalk from 'chalk'
 import { parseConfigFile } from '../utils/parse-config-file.js'
 import { getEffectiveBrowserslistConfig } from '../config/get-babel-config.js'
-import { enableProductionMode } from '../utils/enable-production-mode.js'
+import { setNodeEnv } from '../utils/set-node-env.js'
 import { logger } from '../utils/logger.js'
 import { ScriptFunction } from '../types/script-function.type.js'
 
 const run: ScriptFunction = async (args, config) => {
-  enableProductionMode()
+  setNodeEnv('production')
 
   const { browserslistConfig } = parseConfigFile(config)
   const effectiveConfig = getEffectiveBrowserslistConfig(browserslistConfig)

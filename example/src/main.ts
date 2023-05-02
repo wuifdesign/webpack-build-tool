@@ -10,4 +10,6 @@ export const testFunction = async () => {
   return [img, img2]
 }
 
+/* testcomment */
+
 testFunction().then((a) => console.log(a, 1))

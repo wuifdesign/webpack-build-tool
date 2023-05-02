@@ -1,7 +1,7 @@
 # Webpack Build Tool
 
 This package is used to build Typescript, Javascript and CSS/SCSS files and
-bundle them using [webpack](https://webpack.js.org/).
+bundle them using [webpack](https://webpack.js.org/). Uses https://swc.rs/docs/usage/swc-loader for js/ts files.
 
 ## Installation
 
@@ -248,8 +248,6 @@ This is faster than doing so during build.
 
 
 ### Using Babel instead of SWC
-
-https://swc.rs/docs/usage/swc-loader
 
 ```js
 // webpack-build-tool-config.js

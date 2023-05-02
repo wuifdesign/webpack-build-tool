@@ -3,8 +3,11 @@ import { ESLint } from 'eslint'
 import { logger } from '../utils/logger.js'
 import { ScriptFunction } from '../types/script-function.type.js'
 import { argsParser } from '../utils/args-parser.js'
+import { setNodeEnv } from '../utils/set-node-env.js'
 
 const run: ScriptFunction = async (args) => {
+  setNodeEnv('test')
+
   const { fix } = argsParser(args)
 
   logger(chalk.cyan('Starting ESLint...'))

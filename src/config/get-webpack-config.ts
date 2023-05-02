@@ -1,4 +1,5 @@
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import webpack from 'webpack'
 import logUpdate from 'log-update'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
@@ -16,6 +17,7 @@ import SpeedMeasurePlugin from 'speed-measure-webpack-plugin'
 import chalk from 'chalk'
 import { config as dotEnvConfig } from 'dotenv'
 import { CombinedWebpackConfig, Configuration } from '../types/configuration.type.js'
+import { getEnvironmentHash } from '../utils/get-environment-hash.js'
 
 const notEmpty = <TValue>(value: TValue | null | undefined | false): value is TValue => {
   return value !== null && value !== undefined && value !== false
@@ -36,10 +38,15 @@ export const getWebpackConfig = ({
 
   let enhancedConfig = webpackEnhance({
     mode: isProduction() ? 'production' : 'development',
+    bail: isProduction(),
     entry: entryFiles,
     devtool: isProduction() ? false : 'eval-source-map',
     cache: {
-      type: 'filesystem'
+      type: 'filesystem',
+      version: getEnvironmentHash(),
+      buildDependencies: {
+        config: [fileURLToPath(import.meta.url)]
+      }
     },
     module: {
       rules: [
@@ -233,7 +240,8 @@ export const getWebpackConfig = ({
       assetModuleFilename: 'assets/[name].[contenthash:8][ext][query]',
       path: path.resolve(process.cwd(), outDir),
       clean: true
-    }
+    },
+    performance: false
   })
   if (timings) {
     const smp = new SpeedMeasurePlugin()
