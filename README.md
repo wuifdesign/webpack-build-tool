@@ -14,7 +14,7 @@ npm install webpack-build-tool -D
 Create a `webpack-build-tool-config.js` or `webpack-build-tool-config.ts`  in the same directory as the `package.json`.
 
 ```js
-// webpack-build-tool-config.js
+// webpack-build-tool-config.ts
 
 /** @type { import('webpack-build-tool').Configuration } */
 module.exports = {
@@ -93,7 +93,7 @@ Create `tsconfig.json` file:
 No additional configuration needed, just add them to your `entryFiles`.
 
 ```js
-// webpack-build-tool-config.js
+// webpack-build-tool-config.ts
 
 /** @type { import('webpack-build-tool').Configuration } */
 module.exports = {
@@ -103,6 +103,14 @@ module.exports = {
     'folder/styles.min': './src/styles.scss',
   }
 }
+```
+
+### Inline Import for Styles
+
+If you need to import styles inline you may use the `?inline` query params on imports.
+
+```js
+import styles from './styles.css?inline'
 ```
 
 ### Using ESLint
@@ -146,7 +154,7 @@ import { testFunction } from './main'
 
 describe('testFunction', () => {
   test('should return value', async () => {
-    expect(testFunction()).toBe(123)
+    expect(testFunction()).toBe('testValue')
   })
 })
 ```
@@ -200,7 +208,7 @@ This is faster than doing so during build.
 https://swc.rs/docs/usage/swc-loader
 
 ```js
-// webpack-build-tool-config.js
+// webpack-build-tool-config.ts
 
 /** @type { import('webpack-build-tool').Configuration } */
 module.exports = {
