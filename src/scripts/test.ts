@@ -23,7 +23,7 @@ const run: ScriptFunction = async (args, config) => {
   }
 
   logger(chalk.cyan('Starting jest tests...'))
-  await runJest(['(.*)\\.(spec|test)\\.(ts|tsx|js)', `--config=${JSON.stringify(mergedConfig)}`], process.cwd())
+  await runJest(['(.*)\\.(spec|test)\\.(ts|tsx|js|jsx)', `--config=${JSON.stringify(mergedConfig)}`], process.cwd())
 }
 
 export default run
