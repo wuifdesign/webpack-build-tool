@@ -126,6 +126,12 @@ Create `.swcrc` file:
       "tsx": true,
       "decorators": false,
       "dynamicImport": true
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic",
+        "importSource": "react"
+      }
     }
   }
 }
