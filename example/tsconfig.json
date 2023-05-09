@@ -1,11 +1,12 @@
 {
+  "include": [
+    "webpack-build-tool/build/utils/setup-tests.js"
+  ],
   "compilerOptions": {
     "module": "esnext",
     "types": [
       "jest",
-      "node",
-      "cypress",
-      "@testing-library/cypress"
+      "node"
     ],
     "target": "es2015",
     "moduleResolution": "node",

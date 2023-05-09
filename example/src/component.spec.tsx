@@ -1,8 +1,14 @@
-import { render, screen } from '@testing-library/preact'
-import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
 import { TextComponent } from './component'
 
-test('loads and displays greeting', async () => {
-  render(<TextComponent>Content</TextComponent>)
-  expect(await screen.findByText('Content')).toBeInTheDocument()
+describe('TextComponent', () => {
+  test('loads and displays greeting', async () => {
+    render(<TextComponent>Content</TextComponent>)
+    expect(await screen.findByText('Content')).toBeInTheDocument()
+  })
+
+  test('loads and displays greeting 2', async () => {
+    render(<TextComponent>Content</TextComponent>)
+    expect(await screen.findByText('Content')).toBeInTheDocument()
+  })
 })

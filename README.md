@@ -111,7 +111,10 @@ Create `tsconfig.json` file:
     "isolatedModules": true,
     "esModuleInterop": true,
     "noImplicitAny": true
-  }
+  },
+  "include": [
+    "webpack-build-tool/build/utils/setup-tests.js"
+  ]
 }
 ```
 
@@ -242,7 +245,7 @@ const config = {
   },
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'webpack-build-tool/__mocks__/file-mock.js',
-    '\\.(css|sass|scss)$': 'webpack-build-tool/__mocks__/style-mock.js'
+    '\\.(css|sass|scss)(\\?.+)?$': 'webpack-build-tool/__mocks__/style-mock.js'
   }
 }
 

@@ -11,6 +11,7 @@ import { setNodeEnv } from '../utils/set-node-env.js'
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 const fileMock = path.join(__dirname, '../../__mocks__/file-mock.js')
 const styleMock = path.join(__dirname, '../../__mocks__/style-mock.js')
+const setupTests = path.join(__dirname, '../utils/setup-tests.js')
 
 const run: ScriptFunction = async (args, config) => {
   setNodeEnv('test')
@@ -31,6 +32,7 @@ const run: ScriptFunction = async (args, config) => {
       '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': fileMock,
       '\\.(css|sass|scss)(\\?.+)?$': styleMock
     },
+    setupFilesAfterEnv: [setupTests],
     ...jestConfig
   }
 
