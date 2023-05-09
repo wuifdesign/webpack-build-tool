@@ -1,3 +1,5 @@
+import url from 'node:url'
+import path from 'node:path'
 import chalk from 'chalk'
 import { run as runJest } from 'jest-cli'
 import { logger } from '../utils/logger.js'
@@ -5,6 +7,10 @@ import { parseConfigFile } from '../utils/parse-config-file.js'
 import { getBabelConfig } from '../config/get-babel-config.js'
 import { ScriptFunction } from '../types/script-function.type.js'
 import { setNodeEnv } from '../utils/set-node-env.js'
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+const fileMock = path.join(__dirname, '../../__mocks__/file-mock.js')
+const styleMock = path.join(__dirname, '../../__mocks__/style-mock.js')
 
 const run: ScriptFunction = async (args, config) => {
   setNodeEnv('test')
@@ -22,9 +28,8 @@ const run: ScriptFunction = async (args, config) => {
           : ['babel-jest', getBabelConfig(browserslistConfig, importSource)]
     },
     moduleNameMapper: {
-      '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-        '../../__mocks__/file-mock.js',
-      '\\.(css|sass|scss)(\\?.+)?$': '../../__mocks__/style-mock.js'
+      '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': fileMock,
+      '\\.(css|sass|scss)(\\?.+)?$': styleMock
     },
     ...jestConfig
   }
