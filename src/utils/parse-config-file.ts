@@ -8,6 +8,7 @@ export const parseConfigFile = (config: Configuration): ParsedConfiguration => {
     browserslistConfig: config.browserslist,
     jestConfig: config.jest,
     webpackEnhance: config.webpack || ((config) => config),
-    jsLoader: config.jsLoader || 'swc'
+    jsLoader: config.jsLoader || 'swc',
+    jsTestLoader: config.jsTestLoader
   }
 }

@@ -57,6 +57,7 @@ module.exports = {
   //   testPathIgnorePatterns: ['/node_modules/']
   // },
   // jsLoader: 'swc' // 'swc' | 'babel'
+  // jsTestLoader: 'swc' // 'swc' | 'babel'
 }
 ```
 

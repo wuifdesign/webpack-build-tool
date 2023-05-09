@@ -14,6 +14,7 @@ export type Configuration = {
   jest?: JestConfig
   webpack?: (config: CombinedWebpackConfig) => CombinedWebpackConfig
   jsLoader?: 'swc' | 'babel'
+  jsTestLoader?: 'swc' | 'babel'
 }
 
 export type ParsedConfiguration = {
@@ -24,4 +25,5 @@ export type ParsedConfiguration = {
   jestConfig?: JestConfig
   webpackEnhance: (config: CombinedWebpackConfig) => CombinedWebpackConfig
   jsLoader?: 'swc' | 'babel'
+  jsTestLoader?: 'swc' | 'babel'
 }

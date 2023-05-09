@@ -11,6 +11,7 @@ const config: Configuration = {
     testPathIgnorePatterns: ['/node_modules/']
   },
   jsLoader: 'swc',
+  jsTestLoader: 'babel',
   webpack: (config) => {
     return config
   }
