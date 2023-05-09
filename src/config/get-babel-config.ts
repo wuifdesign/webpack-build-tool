@@ -11,6 +11,7 @@ export const getEffectiveBrowserslistConfig = (browserslist: BrowserListConfig =
 
 export const getBabelConfig = (browserslist?: BrowserListConfig) => ({
   presets: [
+    '@babel/preset-react',
     [
       '@babel/preset-env',
       {

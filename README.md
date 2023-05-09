@@ -271,7 +271,7 @@ For your IDE you may need to add a `.babelrc`:
 // .babelrc
 
 {
-  "presets": ["@babel/preset-typescript"]
+  "presets": ["@babel/preset-react", "@babel/preset-typescript"]
 }
 ```
 

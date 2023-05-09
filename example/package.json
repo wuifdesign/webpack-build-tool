@@ -13,7 +13,12 @@
     "browserslist": "node ../build/cli/webpack-build-tool.js browserslist",
     "typecheck": "node ../build/cli/webpack-build-tool.js typecheck"
   },
+  "dependencies": {
+    "react": "^18.2.0"
+  },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
     "cross-env": "^7.0.3"
   }
 }
