@@ -8,10 +8,12 @@ const config: Configuration = {
     'test/style.min': '/src/style.scss'
   },
   jest: {
+    transformIgnorePatterns: ['node_modules/(?!preact)'],
     testPathIgnorePatterns: ['/node_modules/']
   },
   jsLoader: 'swc',
-  jsTestLoader: 'babel',
+  jsTestLoader: 'swc',
+  importSource: 'preact',
   webpack: (config) => {
     return config
   }

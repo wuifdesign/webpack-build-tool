@@ -1,6 +1,5 @@
-import React from 'react'
-import { FunctionComponent } from 'react'
+import { FunctionComponent } from 'preact'
 
-export const TextComponent: FunctionComponent<{ children: any }> = ({ children }) => {
+export const TextComponent: FunctionComponent = ({ children }) => {
   return <>{children}</>
 }

@@ -9,6 +9,7 @@ export const parseConfigFile = (config: Configuration): ParsedConfiguration => {
     jestConfig: config.jest,
     webpackEnhance: config.webpack || ((config) => config),
     jsLoader: config.jsLoader || 'swc',
-    jsTestLoader: config.jsTestLoader
+    jsTestLoader: config.jsTestLoader,
+    importSource: config.importSource || 'react'
   }
 }

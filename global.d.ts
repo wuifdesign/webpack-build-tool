@@ -10,6 +10,7 @@ declare module 'webpack-build-tool' {
     ) => import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }
     jsLoader?: 'swc' | 'babel'
     jsTestLoader?: 'swc' | 'babel'
+    importSource?: 'react' | 'preact'
   }
 }
 

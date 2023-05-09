@@ -34,7 +34,8 @@ export const getWebpackConfig = ({
   noLint?: boolean
   timings?: boolean
 }) => {
-  const { outDir, entryFiles, browserslistConfig, webpackEnhance, jsLoader, manifest } = parseConfigFile(config)
+  const { outDir, entryFiles, browserslistConfig, webpackEnhance, jsLoader, manifest, importSource } =
+    parseConfigFile(config)
 
   let enhancedConfig = webpackEnhance({
     mode: isProduction() ? 'production' : 'development',
@@ -65,7 +66,7 @@ export const getWebpackConfig = ({
                       options: {
                         cacheCompression: false,
                         cacheDirectory: true,
-                        ...getBabelConfig(browserslistConfig)
+                        ...getBabelConfig(browserslistConfig, importSource)
                       }
                     }
             },

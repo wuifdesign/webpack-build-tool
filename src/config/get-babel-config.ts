@@ -9,9 +9,9 @@ export const getEffectiveBrowserslistConfig = (browserslist: BrowserListConfig =
   return isProduction() ? browserslist.production : browserslist.development
 }
 
-export const getBabelConfig = (browserslist?: BrowserListConfig) => ({
+export const getBabelConfig = (browserslist?: BrowserListConfig, importSource: 'react' | 'preact' = 'react') => ({
   presets: [
-    '@babel/preset-react',
+    ['@babel/preset-react', { runtime: 'automatic', importSource }],
     [
       '@babel/preset-env',
       {

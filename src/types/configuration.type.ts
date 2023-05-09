@@ -15,6 +15,7 @@ export type Configuration = {
   webpack?: (config: CombinedWebpackConfig) => CombinedWebpackConfig
   jsLoader?: 'swc' | 'babel'
   jsTestLoader?: 'swc' | 'babel'
+  importSource?: 'react' | 'preact'
 }
 
 export type ParsedConfiguration = {
@@ -26,4 +27,5 @@ export type ParsedConfiguration = {
   webpackEnhance: (config: CombinedWebpackConfig) => CombinedWebpackConfig
   jsLoader?: 'swc' | 'babel'
   jsTestLoader?: 'swc' | 'babel'
+  importSource: 'react' | 'preact'
 }

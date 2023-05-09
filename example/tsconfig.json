@@ -14,6 +14,7 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
   }
 }

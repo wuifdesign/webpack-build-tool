@@ -9,14 +9,17 @@ import { setNodeEnv } from '../utils/set-node-env.js'
 const run: ScriptFunction = async (args, config) => {
   setNodeEnv('test')
 
-  const { jestConfig, jsLoader, jsTestLoader } = parseConfigFile(config)
+  const { jestConfig, jsLoader, jsTestLoader, browserslistConfig, importSource } = parseConfigFile(config)
   const loader = jsTestLoader ?? jsLoader
 
   const mergedConfig = {
     rootDir: process.cwd(),
     testEnvironment: 'jsdom',
     transform: {
-      '\\.[jt]sx?$': loader === 'swc' ? '@swc/jest' : ['babel-jest', getBabelConfig()]
+      '\\.[jt]sx?$':
+        loader === 'swc'
+          ? ['@swc/jest', { configFile: '.swcrc' }]
+          : ['babel-jest', getBabelConfig(browserslistConfig, importSource)]
     },
     moduleNameMapper: {
       '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':

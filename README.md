@@ -56,8 +56,9 @@ module.exports = {
   // jest: {
   //   testPathIgnorePatterns: ['/node_modules/']
   // },
-  // jsLoader: 'swc' // 'swc' | 'babel'
-  // jsTestLoader: 'swc' // 'swc' | 'babel'
+  // jsLoader: 'swc', // 'swc' | 'babel'
+  // jsTestLoader: 'swc', // 'swc' | 'babel'
+  // importSource: 'react' // 'react' | 'preact'
 }
 ```
 
