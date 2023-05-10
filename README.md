@@ -230,6 +230,20 @@ API_ROOT=https://myurl.com
 console.log(process.env.API_ROOT)
 ```
 
+#### Using @testing-library/preact
+
+```js
+// webpack-build-tool-config.js
+
+/** @type { import('webpack-build-tool').Configuration } */
+module.exports = {
+  // ...
+  jest: {
+    transformIgnorePatterns: ['<rootDir>/node_modules/(?!(preact|@testing-library)/)'],
+  }
+}
+```
+
 #### Using jest in IDE
 
 You need to add the following two files.
@@ -241,7 +255,7 @@ You need to add the following two files.
 const config = {
   testEnvironment: 'jsdom',
   transform: {
-    '\\.[jt]sx?$': ['@swc/jest'] // or ['babel-jest'] if using babel
+    '^.+\\.(js|jsx|ts|tsx|mjs)$': ['@swc/jest'] // or ['babel-jest'] if using babel
   },
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'webpack-build-tool/__mocks__/file-mock.js',

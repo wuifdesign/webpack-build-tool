@@ -23,10 +23,10 @@ const run: ScriptFunction = async (args, config) => {
     rootDir: process.cwd(),
     testEnvironment: 'jsdom',
     transform: {
-      '\\.[jt]sx?$':
+      '^.+\\.(js|jsx|ts|tsx|mjs)$':
         loader === 'swc'
           ? ['@swc/jest', { configFile: '.swcrc' }]
-          : ['babel-jest', getBabelConfig(browserslistConfig, importSource)]
+          : ['babel-jest', getBabelConfig(browserslistConfig, importSource, true)]
     },
     moduleNameMapper: {
       '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': fileMock,

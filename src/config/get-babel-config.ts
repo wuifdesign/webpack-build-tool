@@ -9,18 +9,24 @@ export const getEffectiveBrowserslistConfig = (browserslist: BrowserListConfig =
   return isProduction() ? browserslist.production : browserslist.development
 }
 
-export const getBabelConfig = (browserslist?: BrowserListConfig, importSource: 'react' | 'preact' = 'react') => ({
+export const getBabelConfig = (
+  browserslist?: BrowserListConfig,
+  importSource: 'react' | 'preact' = 'react',
+  isTest = false
+) => ({
   presets: [
     ['@babel/preset-react', { runtime: 'automatic', importSource }],
     [
       '@babel/preset-env',
-      {
-        useBuiltIns: 'usage',
-        corejs: '3.30.1',
-        targets: {
-          browsers: getEffectiveBrowserslistConfig(browserslist)
-        }
-      }
+      isTest
+        ? {}
+        : {
+            useBuiltIns: 'usage',
+            corejs: '3.30.1',
+            targets: {
+              browsers: getEffectiveBrowserslistConfig(browserslist)
+            }
+          }
     ],
     '@babel/preset-typescript'
   ]

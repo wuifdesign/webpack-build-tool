@@ -1,6 +1,5 @@
 {
   "private": true,
-  "type": "module",
   "scripts": {
     "start": "node ../build/cli/webpack-build-tool.js start --timings",
     "serve": "node ../build/cli/webpack-build-tool.js serve --timings",
@@ -18,7 +17,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
+    "@testing-library/preact": "^3.2.3",
     "cross-env": "^7.0.3"
   }
 }
