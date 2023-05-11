@@ -1,11 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "start": "node ../build/cli/webpack-build-tool.js start --timings",
-    "serve": "node ../build/cli/webpack-build-tool.js serve --timings",
+    "start": "node ../build/cli/webpack-build-tool.js start --no-lint",
+    "serve": "node ../build/cli/webpack-build-tool.js serve",
     "build": "node ../build/cli/webpack-build-tool.js build --timings",
     "build-with-analyze": "node ../build/cli/webpack-build-tool.js build --analyze --timings",
-    "build-no-lint": "\"node ../build/cli/webpack-build-tool build --no-lint --timings",
+    "build-no-lint": "node ../build/cli/webpack-build-tool build --no-lint --timings",
     "lint": "node ../build/cli/webpack-build-tool.js lint",
     "eslint": "cross-env TIMING=1 DEBUG=eslint:cli-engine eslint .",
     "test": "node ../build/cli/webpack-build-tool.js test",
@@ -13,11 +13,14 @@
     "typecheck": "node ../build/cli/webpack-build-tool.js typecheck"
   },
   "dependencies": {
-    "preact": "^10.13.2"
+    "preact": "^10.20.2"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/preact": "^3.2.3",
     "cross-env": "^7.0.3"
+  },
+  "volta": {
+    "node": "20.12.2"
   }
 }

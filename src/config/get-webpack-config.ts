@@ -154,7 +154,7 @@ export const getWebpackConfig = ({
             const allFiles: Record<string, string> = {}
             for (const file of files) {
               if (file.chunk) {
-                if (Object.keys(entryFiles).includes(file.chunk.name)) {
+                if (file.chunk.name && Object.keys(entryFiles).includes(file.chunk.name)) {
                   let chunkFiles: string[] = []
                   for (const chunk of file.chunk.getAllInitialChunks()) {
                     chunkFiles = chunkFiles.concat(Array.from(chunk.files))
@@ -210,6 +210,7 @@ export const getWebpackConfig = ({
         logging: 'warn', // 'log' | 'info' | 'warn' | 'error' | 'none' | 'verbose'
         overlay: {
           errors: true,
+          runtimeErrors: true,
           warnings: false
         }
       },
