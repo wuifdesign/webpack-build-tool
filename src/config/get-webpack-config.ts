@@ -210,6 +210,7 @@ export const getWebpackConfig = ({
         logging: 'warn', // 'log' | 'info' | 'warn' | 'error' | 'none' | 'verbose'
         overlay: {
           errors: true,
+          runtimeErrors: true,
           warnings: false
         }
       },

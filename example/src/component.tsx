@@ -1,5 +1,9 @@
-import { FunctionComponent } from 'preact'
+import { FunctionComponent, render } from 'preact'
+import { useCallback } from 'preact/compat'
 
 export const TextComponent: FunctionComponent = ({ children }) => {
-  return <>{children}</>
+  const a = useCallback(() => null)
+  return <>{children}:Content</>
 }
+
+render(<TextComponent />, document.getElementById('root')!)
