@@ -1,7 +1,4 @@
 {
-  "include": [
-    "webpack-build-tool/build/utils/setup-tests.js"
-  ],
   "compilerOptions": {
     "module": "esnext",
     "types": [
