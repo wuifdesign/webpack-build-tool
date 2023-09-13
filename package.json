@@ -27,7 +27,8 @@
     "clean": "rimraf ./build",
     "build": "npm run clean && tsc --skipLibCheck",
     "watch": "npm run clean && tsc -w --skipLibCheck",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@babel/preset-env": "^7.22.15",
