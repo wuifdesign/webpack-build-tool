@@ -13,14 +13,12 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Setup node@20
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
-      - name: Install npm@8
-        run: npm i -g npm@8
       - name: Install
         run: npm ci --prefer-offline
       - run: npm run lint

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default
 import webpack from 'webpack'
 import chalk from 'chalk'
 import { printBuildTimeAfterBuild } from '../utils/build-time-reporter.js'
@@ -20,7 +21,7 @@ const run: ScriptFunction = (args, config) => {
   const { outDir, browserslistConfig } = parseConfigFile(config)
 
   logger(chalk.cyan('Creating an optimized production build...'))
-  logger(chalk.magenta('Browserslist Config: ' + getEffectiveBrowserslistConfig(browserslistConfig).join(', ')))
+  logger(chalk.magenta(`Browserslist Config: ${getEffectiveBrowserslistConfig(browserslistConfig).join(', ')}`))
   logger()
   const { timings, noLint, analyze } = argsParser(args)
   const compiler = webpack(getWebpackConfig({ config, timings, noLint, analyze }))
@@ -39,7 +40,7 @@ const run: ScriptFunction = (args, config) => {
       root,
       outDir,
       WARN_AFTER_FILE_GZIP_SIZE,
-      chalk.magenta('Entry File sizes after gzip:')
+      chalk.magenta('Entry File sizes after gzip:'),
     )
     logger()
 
@@ -48,7 +49,7 @@ const run: ScriptFunction = (args, config) => {
       root,
       outDir,
       WARN_AFTER_FILE_GZIP_SIZE,
-      chalk.magenta('Chunk File sizes after gzip:')
+      chalk.magenta('Chunk File sizes after gzip:'),
     )
     logger()
   })

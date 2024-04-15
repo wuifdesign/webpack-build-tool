@@ -1,7 +1,7 @@
 import prettyMilliseconds from 'pretty-ms'
 import chalk from 'chalk'
-import { logger } from './logger.js'
 import { Stats } from 'webpack'
+import { logger } from './logger.js'
 
 // Prints the build duration after build.
 export function printBuildTimeAfterBuild(webpackStats: Stats | undefined) {
@@ -11,7 +11,7 @@ export function printBuildTimeAfterBuild(webpackStats: Stats | undefined) {
   const { warnings, time } = ((webpackStats as any).stats || [webpackStats])[0].toJson({
     all: false,
     warnings: true,
-    timings: true
+    timings: true,
   })
   const humanTime = prettyMilliseconds(time!)
 

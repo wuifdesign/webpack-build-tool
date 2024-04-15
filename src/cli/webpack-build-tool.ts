@@ -1,11 +1,12 @@
 #! /usr/bin/env node
 
-import chalk from 'chalk'
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { Configuration } from '../types/configuration.type.js'
+import chalk from 'chalk'
+// eslint-disable-next-line import/default
 import tsc from 'typescript'
+import { Configuration } from '../types/configuration.type.js'
 
 process.on('unhandledRejection', (err) => {
   throw err
@@ -21,13 +22,16 @@ let cacheFolder: string | null = null
 const tsConfigPath = path.join(process.cwd(), 'webpack-build-tool-config.ts')
 if (fs.existsSync(tsConfigPath)) {
   const tsContent = await fs.readFileSync(tsConfigPath).toString()
+  // eslint-disable-next-line import/no-named-as-default-member
   const jsContent = tsc.transpileModule(tsContent, {
     compilerOptions: {
+      // eslint-disable-next-line import/no-named-as-default-member
       module: tsc.ModuleKind.ESNext,
+      // eslint-disable-next-line import/no-named-as-default-member
       target: tsc.ScriptTarget.ES2017,
       strict: true,
-      types: []
-    }
+      types: [],
+    },
   }).outputText
   const jsPath = `./node_modules/.cache/webpack-build-tool/webpack-build-tool-config.mjs`
   cacheFolder = path.dirname(jsPath)
@@ -43,6 +47,7 @@ if (cacheFolder) {
 }
 
 if (!config.entryFiles) {
+  // eslint-disable-next-line no-console
   console.log(chalk.red('Key "entryFiles" is missing in "webpack-build-tool-config.js'))
   process.exit(1)
 }
@@ -51,5 +56,6 @@ if (['build', 'start', 'serve', 'test', 'lint', 'browserslist', 'typecheck'].inc
   const run = await import(`../scripts/${script}.js`).then((module) => module.default)
   run(args.slice(scriptIndex + 1), config)
 } else {
+  // eslint-disable-next-line no-console
   console.log(`Unknown script "${script}".`)
 }

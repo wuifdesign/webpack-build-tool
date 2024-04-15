@@ -1,14 +1,12 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+// eslint-disable-next-line import/no-named-as-default
 import webpack from 'webpack'
 import logUpdate from 'log-update'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import ESLintWebpackPlugin from 'eslint-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import { getBabelConfig, getEffectiveBrowserslistConfig } from './get-babel-config.js'
-import { isProduction } from '../utils/is-production.js'
-import { parseConfigFile } from '../utils/parse-config-file.js'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import WebpackRemoveEmptyScriptsPlugin from 'webpack-remove-empty-scripts'
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin'
@@ -16,8 +14,11 @@ import TerserPlugin from 'terser-webpack-plugin'
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin'
 import chalk from 'chalk'
 import { config as dotEnvConfig } from 'dotenv'
+import { parseConfigFile } from '../utils/parse-config-file.js'
+import { isProduction } from '../utils/is-production.js'
 import { CombinedWebpackConfig, Configuration } from '../types/configuration.type.js'
 import { getEnvironmentHash } from '../utils/get-environment-hash.js'
+import { getBabelConfig, getEffectiveBrowserslistConfig } from './get-babel-config.js'
 
 const notEmpty = <TValue>(value: TValue | null | undefined | false): value is TValue => {
   return value !== null && value !== undefined && value !== false
@@ -27,7 +28,7 @@ export const getWebpackConfig = ({
   config,
   analyze,
   noLint,
-  timings
+  timings,
 }: {
   config: Configuration
   analyze?: boolean
@@ -46,8 +47,8 @@ export const getWebpackConfig = ({
       type: 'filesystem',
       version: getEnvironmentHash(),
       buildDependencies: {
-        config: [fileURLToPath(import.meta.url)]
-      }
+        config: [fileURLToPath(import.meta.url)],
+      },
     },
     module: {
       rules: [
@@ -59,16 +60,16 @@ export const getWebpackConfig = ({
               use:
                 jsLoader === 'swc'
                   ? {
-                      loader: 'swc-loader'
+                      loader: 'swc-loader',
                     }
                   : {
                       loader: 'babel-loader',
                       options: {
                         cacheCompression: false,
                         cacheDirectory: true,
-                        ...getBabelConfig(browserslistConfig, importSource)
-                      }
-                    }
+                        ...getBabelConfig(browserslistConfig, importSource),
+                      },
+                    },
             },
             {
               test: /\.(sa|sc|c)ss$/i,
@@ -81,13 +82,13 @@ export const getWebpackConfig = ({
                   options: {
                     postcssOptions: {
                       plugins: [
-                        ['autoprefixer', { overrideBrowserslist: getEffectiveBrowserslistConfig(browserslistConfig) }]
-                      ]
-                    }
-                  }
+                        ['autoprefixer', { overrideBrowserslist: getEffectiveBrowserslistConfig(browserslistConfig) }],
+                      ],
+                    },
+                  },
                 },
-                'sass-loader'
-              ]
+                'sass-loader',
+              ],
             },
             {
               test: /\.(sa|sc|c)ss$/i,
@@ -95,8 +96,8 @@ export const getWebpackConfig = ({
                 {
                   loader: MiniCssExtractPlugin.loader,
                   options: {
-                    publicPath: 'auto'
-                  }
+                    publicPath: 'auto',
+                  },
                 },
                 'css-loader',
                 {
@@ -104,13 +105,13 @@ export const getWebpackConfig = ({
                   options: {
                     postcssOptions: {
                       plugins: [
-                        ['autoprefixer', { overrideBrowserslist: getEffectiveBrowserslistConfig(browserslistConfig) }]
-                      ]
-                    }
-                  }
+                        ['autoprefixer', { overrideBrowserslist: getEffectiveBrowserslistConfig(browserslistConfig) }],
+                      ],
+                    },
+                  },
                 },
-                'sass-loader'
-              ]
+                'sass-loader',
+              ],
             },
             {
               test: /\.(png|jpe?g|gif|webp|svg|eot|ttf|woff|woff2)$/i,
@@ -118,29 +119,29 @@ export const getWebpackConfig = ({
               type: 'asset',
               parser: {
                 dataUrlCondition: {
-                  maxSize: 4 * 1024 // 4kb
-                }
-              }
-            }
-          ]
-        }
-      ]
+                  maxSize: 4 * 1024, // 4kb
+                },
+              },
+            },
+          ],
+        },
+      ],
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env': JSON.stringify(dotEnvConfig().parsed)
+        'process.env': JSON.stringify(dotEnvConfig().parsed),
       }),
       !isProduction() &&
         new webpack.SourceMapDevToolPlugin({
           filename: '[name][ext].map',
-          include: /\.css$/
+          include: /\.css$/,
         }),
       !noLint &&
         new ESLintWebpackPlugin({
           cache: true,
           context: process.cwd(),
           extensions: ['js', 'ts', 'jsx', 'tsx'],
-          failOnError: true
+          failOnError: true,
         }),
       new ForkTsCheckerWebpackPlugin(),
       new WebpackRemoveEmptyScriptsPlugin({}),
@@ -166,17 +167,17 @@ export const getWebpackConfig = ({
             }
             return {
               entryPoints,
-              files: allFiles
+              files: allFiles,
             }
-          }
+          },
         }),
       new webpack.ProgressPlugin((percentage, message, info) => {
         if (percentage >= 1) {
           logUpdate.clear()
         } else {
-          logUpdate(`${chalk.blue(`${message} (${Math.round(percentage * 100) + '%'})`)} ${chalk.dim(info)}`)
+          logUpdate(`${chalk.blue(`${message} (${Math.round(percentage * 100)}%)`)} ${chalk.dim(info)}`)
         }
-      })
+      }),
     ].filter(notEmpty),
     optimization: {
       minimizer: [
@@ -186,23 +187,23 @@ export const getWebpackConfig = ({
                 minify: TerserPlugin.swcMinify,
                 // `terserOptions` options will be passed to `swc` (`@swc/core`)
                 // Link to options - https://swc.rs/docs/config-js-minify
-                terserOptions: {}
+                terserOptions: {},
               }
             : {
                 parallel: true,
                 // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
-                terserOptions: {}
-              }
+                terserOptions: {},
+              },
         ),
         new CssMinimizerPlugin({
-          parallel: true
-        })
+          parallel: true,
+        }),
       ],
       emitOnErrors: false,
       splitChunks: {
-        minSize: 100000
+        minSize: 100000,
       },
-      moduleIds: 'deterministic' // better long-time caching
+      moduleIds: 'deterministic', // better long-time caching
     },
     devServer: {
       hot: false,
@@ -211,22 +212,22 @@ export const getWebpackConfig = ({
         overlay: {
           errors: true,
           runtimeErrors: true,
-          warnings: false
-        }
+          warnings: false,
+        },
       },
       compress: true,
       port: 4000,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
-      }
+        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
+      },
     },
     resolve: {
-      extensions: ['.tsx', '.ts', '.js']
+      extensions: ['.tsx', '.ts', '.js'],
     },
     stats: 'errors-only',
-    target: ['browserslist:' + getEffectiveBrowserslistConfig(browserslistConfig).join(',')],
+    target: [`browserslist:${getEffectiveBrowserslistConfig(browserslistConfig).join(',')}`],
     output: {
       publicPath: 'auto',
       filename: (data) => {
@@ -237,13 +238,13 @@ export const getWebpackConfig = ({
         return `[name].[contenthash:8]${fileEnding}`
       },
       chunkFilename: (data) => {
-        return (data.chunk?.name || 'lib/vendor') + '.[contenthash:8].min.js'
+        return `${data.chunk?.name || 'lib/vendor'}.[contenthash:8].min.js`
       },
       assetModuleFilename: 'assets/[name].[contenthash:8][ext][query]',
       path: path.resolve(process.cwd(), outDir),
-      clean: true
+      clean: true,
     },
-    performance: false
+    performance: false,
   })
   if (timings) {
     const smp = new SpeedMeasurePlugin()
@@ -258,8 +259,8 @@ export const getWebpackConfig = ({
           return '[name]'
         }
         return '[name].css'
-      }
-    })
+      },
+    }),
   )
 
   return enhancedConfig

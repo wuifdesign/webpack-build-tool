@@ -1,9 +1,10 @@
-import webpack from 'webpack'
 import fs from 'node:fs'
 import process from 'node:process'
+// eslint-disable-next-line import/no-named-as-default
+import webpack from 'webpack'
 import chalk from 'chalk'
-import { getWebpackConfig } from '../config/get-webpack-config.js'
 import WebpackDevServer from 'webpack-dev-server'
+import { getWebpackConfig } from '../config/get-webpack-config.js'
 import { logger } from '../utils/logger.js'
 import { ScriptFunction } from '../types/script-function.type.js'
 import { argsParser } from '../utils/args-parser.js'
@@ -33,7 +34,7 @@ for (const event of [
   'SIGTERM',
   'SIGBREAK',
   'SIGHUP',
-  'uncaughtException'
+  'uncaughtException',
 ]) {
   process.on(event, deleteDevServerInfoFile)
 }

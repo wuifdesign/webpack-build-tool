@@ -5,17 +5,17 @@ const config: Configuration = {
   entryFiles: {
     'test/main.min': '/src/main.tsx',
     'test/demo-style.min': '/src/demo.css',
-    'test/style.min': '/src/style.scss'
+    'test/style.min': '/src/style.scss',
   },
   jest: {
-    transformIgnorePatterns: ['<rootDir>/node_modules/(?!(preact|@testing-library)/)']
+    transformIgnorePatterns: ['<rootDir>/node_modules/(?!(preact|@testing-library)/)'],
   },
   jsLoader: 'swc',
   // jsTestLoader: 'swc',
   // importSource: 'preact',
   webpack: (config) => {
     return config
-  }
+  },
 }
 
 export default config

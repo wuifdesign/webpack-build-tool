@@ -1,26 +1,26 @@
 name: Publish to NPM
 
 on:
-  workflow_dispatch
+  push:
+    tags:
+      - v*
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
-      - name: Install npm@8
-        run: npm i -g npm@8
       - name: Install
         run: npm ci --prefer-offline
       - run: npm run lint
       - run: npm run build
       - name: Publish to NPM
-        uses: JS-DevTools/npm-publish@v2
+        uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
-          strategy: upgrade

@@ -1,6 +1,6 @@
 import chalk from 'chalk'
-import { logger } from './logger.js'
 import { Stats, StatsError } from 'webpack'
+import { logger } from './logger.js'
 
 const itemsToString = (errors: StatsError[], type: string): string => {
   return errors

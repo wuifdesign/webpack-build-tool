@@ -22,7 +22,7 @@ export const getEnvironmentHash = () => {
     '.babelrc.cjs',
     '.babelrc.mjs',
     '.babelrc.cts',
-    '.babelrc'
+    '.babelrc',
   ]
   const eslintFiles = [
     '.eslintrc',
@@ -31,7 +31,7 @@ export const getEnvironmentHash = () => {
     '.eslintrc.yaml',
     '.eslintrc.yml',
     '.eslintrc.json',
-    '.eslintignore'
+    '.eslintignore',
   ]
   const webpackBuildToolFiles = ['webpack-build-tool-config.js', 'webpack-build-tool-config.ts']
   const npmFiles = ['package.json', 'tsconfig.json']
@@ -44,14 +44,16 @@ export const getEnvironmentHash = () => {
     ...babelFiles,
     ...eslintFiles,
     ...webpackBuildToolFiles,
-    ...npmFiles
+    ...npmFiles,
   ]) {
     try {
       const fileBuffer = fs.readFileSync(path.join(process.cwd(), file))
       const hashSum = createHash('sha256')
       hashSum.update(fileBuffer)
       cacheHashed[file] = hashSum.digest('hex')
-    } catch (err) {}
+    } catch (err) {
+      // just catch errors
+    }
   }
 
   return createHash('md5').update(JSON.stringify(cacheHashed)).digest('hex')

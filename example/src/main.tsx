@@ -8,7 +8,6 @@ console.log(style)
 console.log(process.env.API_ROOT)
 
 export const testFunction = async () => {
-  // @ts-ignore
   console.log('123')
   import(/* webpackChunkName: "test" */ './test').then((m) => m.testFunction2())
   return [img, img2]

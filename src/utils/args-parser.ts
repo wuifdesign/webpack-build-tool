@@ -3,6 +3,6 @@ export function argsParser(args: string[]) {
     fix: args.includes('--fix'),
     analyze: args.includes('--analyze'),
     noLint: args.includes('--no-lint'),
-    timings: args.includes('--timings')
+    timings: args.includes('--timings'),
   }
 }

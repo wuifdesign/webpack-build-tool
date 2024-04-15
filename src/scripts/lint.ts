@@ -13,7 +13,7 @@ const run: ScriptFunction = async (args) => {
   logger(chalk.cyan('Starting ESLint...'))
   const eslint = new ESLint({
     fix,
-    cwd: process.cwd()
+    cwd: process.cwd(),
   })
   const results = await eslint.lintFiles([`**/*.{js,ts,tsx}`])
   const formatter = await eslint.loadFormatter('stylish')

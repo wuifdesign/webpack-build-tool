@@ -1,6 +1,6 @@
-import { browserslistConfig } from './browserslist-config.js'
 import { isProduction } from '../utils/is-production.js'
 import { BrowserListConfig } from '../types/configuration.type.js'
+import { browserslistConfig } from './browserslist-config.js'
 
 export const getEffectiveBrowserslistConfig = (browserslist: BrowserListConfig = browserslistConfig) => {
   if (Array.isArray(browserslist)) {
@@ -12,7 +12,7 @@ export const getEffectiveBrowserslistConfig = (browserslist: BrowserListConfig =
 export const getBabelConfig = (
   browserslist?: BrowserListConfig,
   importSource: 'react' | 'preact' = 'react',
-  isTest = false
+  isTest = false,
 ) => ({
   presets: [
     ['@babel/preset-react', { runtime: 'automatic', importSource }],
@@ -24,10 +24,10 @@ export const getBabelConfig = (
             useBuiltIns: 'usage',
             corejs: '3.30.1',
             targets: {
-              browsers: getEffectiveBrowserslistConfig(browserslist)
-            }
-          }
+              browsers: getEffectiveBrowserslistConfig(browserslist),
+            },
+          },
     ],
-    '@babel/preset-typescript'
-  ]
+    '@babel/preset-typescript',
+  ],
 })

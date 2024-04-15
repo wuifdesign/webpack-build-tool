@@ -10,7 +10,7 @@ const run: ScriptFunction = async () => {
   const temp = spawnSync('tsc', ['--noEmit'], {
     cwd: process.cwd(),
     env: process.env,
-    stdio: 'inherit'
+    stdio: 'inherit',
   })
 
   if (temp.status === 0) {

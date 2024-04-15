@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default
 import webpack from 'webpack'
 import chalk from 'chalk'
 import { getWebpackConfig } from '../config/get-webpack-config.js'
@@ -17,14 +18,14 @@ const run: ScriptFunction = (args, config) => {
     {
       aggregateTimeout: 20,
       ignored: '**/node_modules',
-      poll: undefined
+      poll: undefined,
     },
     (err, stats) => {
       const { error } = checkErrors(err, stats)
       if (!error) {
         logger(chalk.blue('Build finished.'))
       }
-    }
+    },
   )
 }
 

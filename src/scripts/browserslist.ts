@@ -15,10 +15,11 @@ const run: ScriptFunction = async (args, config) => {
   logger(chalk.cyan(`Supported Browsers:`))
   logger(
     browserslist(effectiveConfig)
-      .map((name) => '    ' + name)
-      .join('\n')
+      .map((name) => `    ${name}`)
+      .join('\n'),
   )
   logger()
+  // eslint-disable-next-line import/no-named-as-default-member
   logger(chalk.magenta(`Browser Coverage: ${browserslist.coverage(browserslist(effectiveConfig)).toFixed(1)}%`))
 }
 
