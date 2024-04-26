@@ -34,7 +34,7 @@ export const getEnvironmentHash = () => {
     '.eslintignore',
   ]
   const webpackBuildToolFiles = ['webpack-build-tool-config.js', 'webpack-build-tool-config.ts']
-  const npmFiles = ['package.json', 'tsconfig.json']
+  const npmFiles = ['package.json', 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'tsconfig.json']
 
   const cacheHashed: Record<string, string> = { NODE_ENV }
 
