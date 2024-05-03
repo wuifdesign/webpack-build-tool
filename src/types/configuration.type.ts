@@ -6,6 +6,13 @@ export type CombinedWebpackConfig = WebpackConfiguration & { devServer: WebpackD
 
 export type BrowserListConfig = string[] | { production: string[]; development: string[] }
 
+export type LicenceCheckerConfig = {
+  outputLicenceFile?: boolean
+  excludedLicences?: string[]
+  allowedLicences?: string[]
+  ignoredPackages?: string[]
+}
+
 export type Configuration = {
   entryFiles: Record<string, any>
   outDir?: string
@@ -13,6 +20,7 @@ export type Configuration = {
   browserslist?: BrowserListConfig
   jest?: JestConfig
   webpack?: (config: CombinedWebpackConfig) => CombinedWebpackConfig
+  licenseChecker?: LicenceCheckerConfig
   jsLoader?: 'swc' | 'babel'
   jsTestLoader?: 'swc' | 'babel'
   importSource?: 'react' | 'preact'
@@ -25,6 +33,7 @@ export type ParsedConfiguration = {
   browserslistConfig?: BrowserListConfig
   jestConfig?: JestConfig
   webpackEnhance: (config: CombinedWebpackConfig) => CombinedWebpackConfig
+  licenseChecker?: LicenceCheckerConfig
   jsLoader?: 'swc' | 'babel'
   jsTestLoader?: 'swc' | 'babel'
   importSource: 'react' | 'preact'

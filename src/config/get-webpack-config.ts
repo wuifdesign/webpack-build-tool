@@ -14,6 +14,7 @@ import TerserPlugin from 'terser-webpack-plugin'
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin'
 import chalk from 'chalk'
 import { config as dotEnvConfig } from 'dotenv'
+import { LicenseWebpackPlugin } from 'license-webpack-plugin'
 import { parseConfigFile } from '../utils/parse-config-file.js'
 import { isProduction } from '../utils/is-production.js'
 import { CombinedWebpackConfig, Configuration } from '../types/configuration.type.js'
@@ -35,7 +36,7 @@ export const getWebpackConfig = ({
   noLint?: boolean
   timings?: boolean
 }) => {
-  const { outDir, entryFiles, browserslistConfig, webpackEnhance, jsLoader, manifest, importSource } =
+  const { outDir, entryFiles, licenseChecker, browserslistConfig, webpackEnhance, jsLoader, manifest, importSource } =
     parseConfigFile(config)
 
   let enhancedConfig = webpackEnhance({
@@ -136,6 +137,40 @@ export const getWebpackConfig = ({
           filename: '[name][ext].map',
           include: /\.css$/,
         }),
+      isProduction() &&
+        (new LicenseWebpackPlugin({
+          excludedPackageTest: (packageName) => {
+            return [...(licenseChecker?.ignoredPackages || []), 'webpack-build-tool'].includes(packageName)
+          },
+          licenseInclusionTest: (licenseType) => {
+            return !(licenseChecker?.excludedLicences || []).includes(licenseType)
+          },
+          unacceptableLicenseTest: (licenseType) => {
+            return !(licenseChecker?.allowedLicences || ['Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'MIT']).includes(
+              licenseType,
+            )
+          },
+          handleMissingLicenseType: (packageName) => {
+            // eslint-disable-next-line no-console
+            console.log(chalk.yellow(`Cannot find license for ${packageName}`))
+            return 'UNKNOWN'
+          },
+          renderLicenses: (modules) => {
+            const outputLicenceFile = licenseChecker?.outputLicenceFile ?? true
+            if (!outputLicenceFile || modules.length === 0) {
+              return ''
+            }
+            return modules
+              .map((licence) => {
+                return `--------------------------------------------------------------------------------
+${licence.name}${licence.packageJson?.version ? ` v${licence.packageJson?.version}` : ''} (${licence.licenseId})
+--------------------------------------------------------------------------------
+
+${licence.licenseText}`
+              })
+              .join('\n')
+          },
+        }) as any),
       !noLint &&
         new ESLintWebpackPlugin({
           cache: true,

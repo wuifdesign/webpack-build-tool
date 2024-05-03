@@ -32,6 +32,12 @@ const config: Configuration = {
   // jest: {
   //   testPathIgnorePatterns: ['/node_modules/']
   // },
+  // licenseChecker: {
+  //   outputLicenceFile: true
+  //   excludedLicences: []
+  //   allowedLicences: ['Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'MIT']
+  //   ignoredPackages: []
+  // },
   // jsLoader: 'swc' // 'swc' | 'babel'
 }
 
@@ -55,6 +61,12 @@ module.exports = {
   // },
   // jest: {
   //   testPathIgnorePatterns: ['/node_modules/']
+  // },
+  // licenseChecker: {
+  //   outputLicenceFile: true
+  //   excludedLicences: []
+  //   allowedLicences: ['Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'MIT']
+  //   ignoredPackages: []
   // },
   // jsLoader: 'swc', // 'swc' | 'babel'
   // jsTestLoader: 'swc', // 'swc' | 'babel'

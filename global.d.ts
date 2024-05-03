@@ -6,8 +6,14 @@ declare module 'webpack-build-tool' {
     browserslist?: string[] | { production: string[]; development: string[] }
     jest?: import('jest').Config
     webpack?: (
-      config: import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }
+      config: import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration },
     ) => import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }
+    licenseChecker?: {
+      outputLicenceFile?: boolean
+      excludedLicences?: string[]
+      allowedLicences?: string[]
+      ignoredPackages?: string[]
+    }
     jsLoader?: 'swc' | 'babel'
     jsTestLoader?: 'swc' | 'babel'
     importSource?: 'react' | 'preact'
