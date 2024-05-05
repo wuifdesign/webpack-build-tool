@@ -44,7 +44,7 @@ export const getWebpackConfig = ({
     stats: {
       warnings: false,
     },
-    handleMissingLicenseType: (packageName) => {
+    handleMissingLicenseType: () => {
       return 'UNKNOWN'
     },
     excludedPackageTest: (packageName) => {
