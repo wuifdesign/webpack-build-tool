@@ -14,7 +14,7 @@ const config: Configuration = {
   // jsTestLoader: 'swc',
   // importSource: 'preact',
   licenseChecker: {
-    allowedLicences: ['MIT'],
+    allowedLicences: ['MIT', 'ISC'],
   },
   webpack: (config) => {
     return config

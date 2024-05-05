@@ -15,6 +15,7 @@ import SpeedMeasurePlugin from 'speed-measure-webpack-plugin'
 import chalk from 'chalk'
 import { config as dotEnvConfig } from 'dotenv'
 import { LicenseWebpackPlugin } from 'license-webpack-plugin'
+import { PluginOptions } from 'license-webpack-plugin/dist/PluginOptions.js'
 import { parseConfigFile } from '../utils/parse-config-file.js'
 import { isProduction } from '../utils/is-production.js'
 import { CombinedWebpackConfig, Configuration } from '../types/configuration.type.js'
@@ -38,6 +39,18 @@ export const getWebpackConfig = ({
 }) => {
   const { outDir, entryFiles, licenseChecker, browserslistConfig, webpackEnhance, jsLoader, manifest, importSource } =
     parseConfigFile(config)
+
+  const licenseWebpackPluginOptions: PluginOptions = {
+    stats: {
+      warnings: false,
+    },
+    handleMissingLicenseType: (packageName) => {
+      return 'UNKNOWN'
+    },
+    excludedPackageTest: (packageName) => {
+      return [...(licenseChecker?.ignoredPackages || []), 'webpack-build-tool'].includes(packageName)
+    },
+  }
 
   let enhancedConfig = webpackEnhance({
     mode: isProduction() ? 'production' : 'development',
@@ -139,9 +152,37 @@ export const getWebpackConfig = ({
         }),
       isProduction() &&
         (new LicenseWebpackPlugin({
-          excludedPackageTest: (packageName) => {
-            return [...(licenseChecker?.ignoredPackages || []), 'webpack-build-tool'].includes(packageName)
+          ...licenseWebpackPluginOptions,
+          perChunkOutput: false,
+          renderLicenses: (modules) => {
+            const licences: Record<string, string[]> = {}
+            for (const module of modules) {
+              if (!module.licenseId) {
+                continue
+              }
+              if (!licences[module.licenseId]) {
+                licences[module.licenseId] = []
+              }
+              licences[module.licenseId].push(module.name)
+            }
+            if (Object.keys(licences).length > 0) {
+              // eslint-disable-next-line no-console
+              console.log(chalk.blue(`\nLicence Info`))
+              for (const [name, packages] of Object.entries(licences)) {
+                // eslint-disable-next-line no-console
+                console.log(chalk.blue(`  ${name} x ${packages.length}: `) + packages.join(', '))
+              }
+            }
+            // eslint-disable-next-line no-console
+            console.log('')
+            // eslint-disable-next-line no-console
+            console.log('')
+            return ''
           },
+        }) as any),
+      isProduction() &&
+        (new LicenseWebpackPlugin({
+          ...licenseWebpackPluginOptions,
           licenseInclusionTest: (licenseType) => {
             return !(licenseChecker?.excludedLicences || []).includes(licenseType)
           },
@@ -149,11 +190,6 @@ export const getWebpackConfig = ({
             return !(licenseChecker?.allowedLicences || ['Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'MIT']).includes(
               licenseType,
             )
-          },
-          handleMissingLicenseType: (packageName) => {
-            // eslint-disable-next-line no-console
-            console.log(chalk.yellow(`Cannot find license for ${packageName}`))
-            return 'UNKNOWN'
           },
           renderLicenses: (modules) => {
             const outputLicenceFile = licenseChecker?.outputLicenceFile ?? true
@@ -166,9 +202,9 @@ export const getWebpackConfig = ({
 ${licence.name}${licence.packageJson?.version ? ` v${licence.packageJson?.version}` : ''} (${licence.licenseId})
 --------------------------------------------------------------------------------
 
-${licence.licenseText}`
+${licence.licenseText?.trim()}`
               })
-              .join('\n')
+              .join('\n\n')
           },
         }) as any),
       !noLint &&

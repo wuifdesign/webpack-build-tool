@@ -14,11 +14,14 @@
     "typecheck": "node ../build/cli/webpack-build-tool.js typecheck"
   },
   "dependencies": {
+    "ics": "^3.7.2",
+    "jquery": "^3.7.1",
     "preact": "^10.20.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/preact": "^3.2.3",
+    "@types/jquery": "^3.5.29",
     "cross-env": "^7.0.3"
   },
   "volta": {
