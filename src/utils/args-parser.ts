@@ -4,5 +4,6 @@ export function argsParser(args: string[]) {
     analyze: args.includes('--analyze'),
     noLint: args.includes('--no-lint'),
     timings: args.includes('--timings'),
+    watch: args.includes('--watch'),
   }
 }

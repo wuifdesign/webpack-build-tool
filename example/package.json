@@ -4,6 +4,7 @@
     "start": "node ../build/cli/webpack-build-tool.js start --no-lint",
     "serve": "node ../build/cli/webpack-build-tool.js serve",
     "build": "node ../build/cli/webpack-build-tool.js build",
+    "build-watch": "node ../build/cli/webpack-build-tool.js build --watch",
     "build-with-timings": "node ../build/cli/webpack-build-tool.js build --timings",
     "build-with-analyze": "node ../build/cli/webpack-build-tool.js build --analyze --timings",
     "build-no-lint": "node ../build/cli/webpack-build-tool build --no-lint --timings",

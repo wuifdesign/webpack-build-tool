@@ -85,6 +85,7 @@ Then update your `package.json` and add the package and new scripts:
     "start": "webpack-build-tool start",
     "serve": "webpack-build-tool serve",
     "build": "webpack-build-tool build",
+    "build-watch": "webpack-build-tool build --watch",
     "build-with-analyze": "webpack-build-tool build --analyze",
     "build-no-lint": "webpack-build-tool build --no-lint",
     "lint": "webpack-build-tool lint",

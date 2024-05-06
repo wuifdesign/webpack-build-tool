@@ -23,9 +23,9 @@ const run: ScriptFunction = (args, config) => {
   logger(chalk.cyan('Creating an optimized production build...'))
   logger(chalk.magenta(`Browserslist Config: ${getEffectiveBrowserslistConfig(browserslistConfig).join(', ')}`))
   logger()
-  const { timings, noLint, analyze } = argsParser(args)
+  const { timings, noLint, analyze, watch } = argsParser(args)
   const compiler = webpack(getWebpackConfig({ config, timings, noLint, analyze }))
-  compiler.run((err, stats) => {
+  const runCallback: (err: null | Error, result?: webpack.Stats) => any = (err, stats) => {
     const { error } = checkErrors(err, stats)
     if (!stats || error) {
       process.exit(1)
@@ -52,7 +52,20 @@ const run: ScriptFunction = (args, config) => {
       chalk.magenta('Chunk File sizes after gzip:'),
     )
     logger()
-  })
+  }
+
+  if (watch) {
+    compiler.watch(
+      {
+        aggregateTimeout: 20,
+        ignored: '**/node_modules',
+        poll: undefined,
+      },
+      runCallback,
+    )
+  } else {
+    compiler.run(runCallback)
+  }
 }
 
 export default run
