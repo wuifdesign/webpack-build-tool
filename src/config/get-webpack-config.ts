@@ -304,7 +304,7 @@ ${licence.licenseText?.trim()}`
       filename: (data) => {
         const fileEnding = !data.chunk?.name?.endsWith('.js') ? '.js' : ''
         if (data.chunk?.name && Object.keys(entryFiles).includes(data.chunk.name)) {
-          return `[name]${fileEnding}`
+          return `${data.chunk.name}${fileEnding}`
         }
         return `[name].[contenthash:8]${fileEnding}`
       },
@@ -327,7 +327,7 @@ ${licence.licenseText?.trim()}`
     new MiniCssExtractPlugin({
       filename: (pathData) => {
         if (pathData.chunk?.name?.endsWith('.css')) {
-          return '[name]'
+          return `${pathData.chunk?.name}`
         }
         return '[name].css'
       },

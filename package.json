@@ -1,6 +1,6 @@
 {
   "name": "webpack-build-tool",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "Commands for building JS/TS/CSS/SCSS files.",
   "author": "wuifdesign",
   "license": "MIT",
