@@ -329,6 +329,9 @@ ${licence.licenseText?.trim()}`
         if (pathData.chunk?.name?.endsWith('.css')) {
           return `${pathData.chunk?.name}`
         }
+        if (pathData.chunk) {
+          return `${pathData.chunk.name}.css`
+        }
         return '[name].css'
       },
     }),

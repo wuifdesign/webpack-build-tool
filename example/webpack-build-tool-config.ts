@@ -3,8 +3,8 @@ import { Configuration } from 'webpack-build-tool'
 const config: Configuration = {
   manifest: true,
   entryFiles: {
-    'test/main.min': '/src/main.tsx',
-    'test/demo-style.min': '/src/demo.css',
+    'test/main.[contenthash:8].min': '/src/main.tsx',
+    'test/demo-style.[contenthash:8].min': '/src/demo.css',
     'test/style.min': '/src/style.scss',
   },
   jest: {
