@@ -11,7 +11,7 @@ export const parseConfigFile = (config: Configuration): ParsedConfiguration => {
     licenseChecker: config.licenseChecker,
     jsLoader: config.jsLoader || 'swc',
     jsTestLoader: config.jsTestLoader,
-    dataUriMinFileSize: config.dataUriMinFileSize,
+    dataUriMaxFileSize: config.dataUriMaxFileSize,
     importSource: config.importSource || 'react',
   }
 }

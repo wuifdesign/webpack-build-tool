@@ -43,7 +43,7 @@ export const getWebpackConfig = ({
     licenseChecker,
     browserslistConfig,
     webpackEnhance,
-    dataUriMinFileSize,
+    dataUriMaxFileSize,
     jsLoader,
     manifest,
     importSource,
@@ -142,7 +142,7 @@ export const getWebpackConfig = ({
               type: 'asset',
               parser: {
                 dataUrlCondition: {
-                  maxSize: dataUriMinFileSize || 4 * 1024, // 4kb
+                  maxSize: dataUriMaxFileSize || 4 * 1024, // 4kb
                 },
               },
             },

@@ -21,7 +21,7 @@ export type Configuration = {
   jest?: JestConfig
   webpack?: (config: CombinedWebpackConfig) => CombinedWebpackConfig
   licenseChecker?: LicenceCheckerConfig
-  dataUriMinFileSize?: number
+  dataUriMaxFileSize?: number
   jsLoader?: 'swc' | 'babel'
   jsTestLoader?: 'swc' | 'babel'
   importSource?: 'react' | 'preact'
@@ -35,7 +35,7 @@ export type ParsedConfiguration = {
   jestConfig?: JestConfig
   webpackEnhance: (config: CombinedWebpackConfig) => CombinedWebpackConfig
   licenseChecker?: LicenceCheckerConfig
-  dataUriMinFileSize?: number
+  dataUriMaxFileSize?: number
   jsLoader?: 'swc' | 'babel'
   jsTestLoader?: 'swc' | 'babel'
   importSource: 'react' | 'preact'
