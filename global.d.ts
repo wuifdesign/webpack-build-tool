@@ -14,6 +14,7 @@ declare module 'webpack-build-tool' {
       allowedLicences?: string[]
       ignoredPackages?: string[]
     }
+    dataUriMinFileSize?: number
     jsLoader?: 'swc' | 'babel'
     jsTestLoader?: 'swc' | 'babel'
     importSource?: 'react' | 'preact'

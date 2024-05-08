@@ -37,8 +37,17 @@ export const getWebpackConfig = ({
   noLint?: boolean
   timings?: boolean
 }) => {
-  const { outDir, entryFiles, licenseChecker, browserslistConfig, webpackEnhance, jsLoader, manifest, importSource } =
-    parseConfigFile(config)
+  const {
+    outDir,
+    entryFiles,
+    licenseChecker,
+    browserslistConfig,
+    webpackEnhance,
+    dataUriMinFileSize,
+    jsLoader,
+    manifest,
+    importSource,
+  } = parseConfigFile(config)
 
   const licenseWebpackPluginOptions: PluginOptions = {
     stats: {
@@ -133,7 +142,7 @@ export const getWebpackConfig = ({
               type: 'asset',
               parser: {
                 dataUrlCondition: {
-                  maxSize: 4 * 1024, // 4kb
+                  maxSize: dataUriMinFileSize || 4 * 1024, // 4kb
                 },
               },
             },
