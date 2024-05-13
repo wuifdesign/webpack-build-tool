@@ -15,6 +15,7 @@
     "typecheck": "node ../build/cli/webpack-build-tool.js typecheck"
   },
   "dependencies": {
+    "bootstrap": "^5.3.3",
     "ics": "^3.7.2",
     "jquery": "^3.7.1",
     "preact": "^10.21.0"
