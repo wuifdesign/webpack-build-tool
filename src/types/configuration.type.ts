@@ -1,6 +1,7 @@
 import { Configuration as WebpackConfiguration } from 'webpack'
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
 import { Config as JestConfig } from 'jest'
+import { Options } from 'eslint-webpack-plugin'
 
 export type CombinedWebpackConfig = WebpackConfiguration & { devServer: WebpackDevServerConfiguration }
 
@@ -19,6 +20,7 @@ export type Configuration = {
   manifest?: boolean
   browserslist?: BrowserListConfig
   jest?: JestConfig
+  eslint?: Options
   webpack?: (config: CombinedWebpackConfig) => CombinedWebpackConfig
   licenseChecker?: LicenceCheckerConfig
   dataUriMaxFileSize?: number
@@ -33,6 +35,7 @@ export type ParsedConfiguration = {
   manifest: boolean
   browserslistConfig?: BrowserListConfig
   jestConfig?: JestConfig
+  eslintConfig?: Options
   webpackEnhance: (config: CombinedWebpackConfig) => CombinedWebpackConfig
   licenseChecker?: LicenceCheckerConfig
   dataUriMaxFileSize?: number

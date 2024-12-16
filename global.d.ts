@@ -5,6 +5,7 @@ declare module 'webpack-build-tool' {
     manifest?: boolean
     browserslist?: string[] | { production: string[]; development: string[] }
     jest?: import('jest').Config
+    eslint?: import('eslint-webpack-plugin').Options
     webpack?: (
       config: import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration },
     ) => import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }

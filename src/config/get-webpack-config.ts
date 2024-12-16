@@ -222,6 +222,7 @@ ${licence.licenseText?.trim()}`
           context: process.cwd(),
           extensions: ['js', 'ts', 'jsx', 'tsx'],
           failOnError: true,
+          ...config.eslint,
         }),
       new ForkTsCheckerWebpackPlugin(),
       new WebpackRemoveEmptyScriptsPlugin({}),
